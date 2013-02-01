@@ -39,11 +39,37 @@ public class AES {
 	     {0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d}};
   	
 	/**
-	 * @param args
+	 * Constructor function
+	 * @param key Hex string of the key
+	 */
+	public AES(String key) {
+		
+	}
+	
+	/**
+	 * This is just being left here for debugging functions. It won't be needed in the final class.
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
+	
+	
+	/*
+	 * This function adds two binary strings using bitwise XORs. It assumes that both
+	 * numbers are have the same length. This should be usable for both byte and word addition.
+	 * @param num1 Hex string of the first number
+	 * @param num2 Hex string of the second number 
+	 * @return the added string
+	 */
+	private static String addition(String num1, String num2) {
+		//It's easier just to convert the strings to integers and XOR them, 
+		//rather than doing it character by character.
+		int n1 = Integer.parseInt(num1.replace("0x", ""), 16);
+		int n2 = Integer.parseInt(num2.replace("0x", ""), 16);
+		int result = (n1 ^ n2); //actual XOR
+		return Integer.toHexString(result);
+	}
+	
+	
 
 }
