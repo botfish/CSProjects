@@ -91,7 +91,49 @@ public class AES {
 	 * This is just being left here for debugging functions. It won't be needed in the final class.
 	 */
 	public static void main(String[] args) {
-		System.out.println(Integer.toHexString(GetRowCol(0x5f)));
+		System.out.println(Integer.toHexString(byteMultiplyX(0x57,0x13)));
+	}
+	
+	/*
+	 * More efficient version of byte multiplication.
+	 * @param int num1
+	 * @param int num2
+	 * @return the multiplication result
+	 */
+	private static int byteMultiplyX(int num1, int num2) {
+		 int result;
+		 int r1 = xtime(num1);
+		 if ((num2 % 2) == 1) {
+			 result = num1;
+		 }
+		 else {
+			 result = 0x0;
+		 }
+		 num2>>>=1;
+		 while (num2 != 0) {
+			 if ((num2 % 2) == 1) {
+				 result = addition(result, r1);
+			 }
+			 num2>>>=1;
+			 r1 = xtime(r1);
+		 }
+		 return result;
+	}
+	
+	/*
+	 * Multiply by X, depending on first bit
+	 * @param int num
+	 * @return the result
+	 */
+	private static int xtime(int num) {
+		int temp = num;   
+        temp &= 0x80; 
+        num <<= 1;  //multiply by 2
+        if (temp == 0x80) //if the first bit is 1
+        {   
+                num ^= (0x1b);   
+        }   
+        return num & 0xff; //only the last two digits   
 	}
 	
 	/*
@@ -143,6 +185,16 @@ public class AES {
 		int n2 = Integer.parseInt(num2.replace("0x", ""), 16);
 		int result = (n1 ^ n2); //actual XOR
 		return Integer.toHexString(result);
+	}
+	
+	/*
+	 * Integer version of above function.
+	 */
+	private static int addition(int num1, int num2) {
+		//It's easier just to convert the strings to integers and XOR them, 
+		//rather than doing it character by character.
+		int result = (num1 ^ num2); //actual XOR
+		return result;
 	}
 	
 	
