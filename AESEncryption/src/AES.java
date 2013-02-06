@@ -1,5 +1,9 @@
+import java.nio.ByteBuffer;
+
 
 public class AES {
+	
+	final private static int Nb = 4;
 	
 	//the table for the S-boxes. NOTE: Indices greater than 9 will need to be converted from hex to integer
 	final private static int[][] subTable = 
@@ -92,6 +96,37 @@ public class AES {
 	 */
 	public static void main(String[] args) {
 		System.out.println(Integer.toHexString(byteMultiplyX(0x57,0x13)));
+	}
+	
+	/*
+	 * Multiplies 2 word values (it is assumed there are 4 bytes in a word)
+	 * @param int num1
+	 * @param int num2
+	 * @return the multiplication result
+	 */
+	private static int wordMultiply(int num1, int num2) {
+		int[] a = intToArray(num1);
+		int[] b = intToArray(num2);
+		int[] d = new int[4];
+		d[0] = addition(addition(addition(byteMultiply(a[0],b[0]), byteMultiply(a[3],b[1])),byteMultiply(a[2],b[2])), byteMultiply(a[1],b[3]));
+		d[1] = addition(addition(addition(byteMultiply(a[1],b[0]), byteMultiply(a[0],b[1])),byteMultiply(a[3],b[2])), byteMultiply(a[2],b[3]));
+		d[2] = addition(addition(addition(byteMultiply(a[2],b[0]), byteMultiply(a[1],b[1])),byteMultiply(a[0],b[2])), byteMultiply(a[3],b[3]));
+		d[3] = addition(addition(addition(byteMultiply(a[3],b[0]), byteMultiply(a[2],b[1])),byteMultiply(a[1],b[2])), byteMultiply(a[0],b[3]));
+		return d[0];
+	}
+	
+	/*
+	 * Converts an int word to an array of integer bytes.
+	 * @param int num
+	 * @return int array
+	 */
+	private static int[] intToArray(int num) {
+		byte[] a1 = ByteBuffer.allocate(4).putInt(num).array();
+		int[] a = new int[4];
+		for (int i = 0; i < 4; i++) {
+			a[i] = (int)a1[i];
+		}
+		return a;
 	}
 	
 	/*
@@ -195,6 +230,150 @@ public class AES {
 		//rather than doing it character by character.
 		int result = (num1 ^ num2); //actual XOR
 		return result;
+	}
+	
+	private static void SubBytes(int[][] state)
+	{
+		for(int row=0; row<4; row++)
+		{
+			for(int col=0; col<Nb; col++)
+			{
+				int x; int y;
+				 x=left(state[row][col]);
+				 y=right(state[row][col]);	
+				 state[row][col]=subTable[x][y];
+			}
+		}
+		
+			
+	}
+	
+	private static void invSubBytes(int[][] state)
+	{
+		for(int row=0; row<4; row++){
+			for(int col=0; col<Nb; col++){
+				int x; int y;
+				 x=left(state[row][col]);
+				 y=right(state[row][col]);	
+				 state[row][col] = invSubTable[x][y];
+			}
+		}
+	}
+	
+	private static int left( int val )
+	   {
+	        final int LMASK=0x000000f0;
+	        return (  (val & LMASK)>>4 );
+	   }
+	 
+	private static int right( int val )
+	   {
+	        final int RMASK=0x0000000f;
+	        return (  (val & RMASK) );
+	        
+	   }
+	
+	/*
+	private static int byteMultiply(int num1, int num2) 
+	{
+		int total = Ltable[left(num1)][right(num1)] + Ltable[left(num2)][right(num2)];
+		if (total > 255) {
+			total=total-255 ; 	// make sure the total isn't bigger than 255
+			}
+			
+			//get the result from the antilog table
+			
+			return Etable[left(total)][right(total)];
+	}*/
+	
+	public static void shiftRows(int[][] state)
+	{
+		int[] temp= new int[4];
+		for (int row=0; row<4; row++)
+		{
+			for(int col=0; col<Nb; col++)
+			{
+				// need to shift each row over 'row' times
+				// i.e., row 0 does not shift, row 1 shifts elements to the left by 1,
+				// row 2 shifts elements to the left by 2, etc
+				// (col + row) mod Nb will give us what we want
+				
+				// store values into a temp array
+				temp[col]=state[row][(col+row)%Nb];
+			for(col=0; col<Nb; col++)
+			{
+				// write values into state
+				state[row][col] = temp [col];
+			}
+			}
+		}
+	}
+	
+	public static void InvShiftRows(int[][] state)
+	{
+		int[] temp= new int[4];
+		for (int row=0; row<4; row++)
+		{
+			for(int col=0; col<Nb; col++)
+			{
+				// For the Inverse
+				// need to shift RIGHT each row over 'row' times
+				// i.e., row 0 does not shift, row 1 shifts elements to the right by 1,
+				// row 2 shifts elements to the right by 2, etc
+				// (col + row) mod Nb will give us what we want
+				
+				// store values into a temp array
+				temp[(col+row)%Nb]=state[row][col];
+			for(col=0; col<Nb; col++)
+			{
+				// write values into state
+				state[row][col] = temp [col];
+			}
+			}
+		}
+	}
+	public static void MixCols(int [][] state)
+	{
+		int[] temp= new int[4];
+		for (int col=0; col<Nb; col++)
+		{
+			// compute new columns, store in temp vector, write to new state afterwards
+			temp[0] = byteMultiply(state[0][col],2) ^ byteMultiply(state[1][col],3) ^
+						state[2][col] ^ state[3][col];
+			temp[1] = state[0][col] ^ byteMultiply(state[1][col],2) ^
+						byteMultiply(state[2][col],3) ^ state[3][col];
+			temp[2] = state[0][col] ^ state[1][col] ^ 
+						byteMultiply(state[2][col],2) ^ byteMultiply(state[3][col],3);
+			temp[3] = byteMultiply(state[0][col],3) ^ state[1][col] ^
+						state[2][col] ^ byteMultiply(state[3][col],2);
+			
+			for (int i=0; i<4; i++)
+			{
+				state[i][col] = temp[i];
+			}      
+		}
+	}
+	
+	public static void InvMixCols(int [][] state)
+	{
+		int[] temp= new int[4];
+		for (int col=0; col<Nb; col++)
+		{
+			// compute new columns, store in temp vector, write to new state afterwards
+			temp[0] = byteMultiply(state[0][col],0x0e) ^ byteMultiply(state[1][col],0x0b)
+				   ^  byteMultiply(state[2][col],0x0d) ^ byteMultiply(state[3][col],0x09);
+			temp[1] = byteMultiply(state[0][col],0x09) ^ byteMultiply(state[1][col],0x0e)
+				   ^  byteMultiply(state[2][col],0x0b) ^ byteMultiply(state[3][col],0x0d);
+			temp[2] = byteMultiply(state[0][col],0x0d) ^ byteMultiply(state[1][col],0x09) 
+				   ^  byteMultiply(state[2][col],0x0e) ^ byteMultiply(state[3][col],0x0b);
+			temp[3] = byteMultiply(state[0][col],0x0b) ^ byteMultiply(state[1][col],0x0d)
+				   ^  byteMultiply(state[2][col],0x09) ^ byteMultiply(state[3][col],0x0e);
+			
+			for (int i=0; i<4; i++)
+			{
+				state[i][col] = temp[i];
+			}      
+		}
 	}
 	
 	
