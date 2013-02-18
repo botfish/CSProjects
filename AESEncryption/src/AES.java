@@ -1,12 +1,14 @@
-import java.nio.ByteBuffer;
-
-
 public class AES {
 	
-	final private static int Nb = 4;
+	private final int Nb = 4;
+	private int Nk; //will be 4, 6 or 8
+	private int Nr; //number of rounds - will be 10, 12, or 14
+	private int[] keyArray;
+	private int[][] roundArray;
+	private int RoundKey [][] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}}; // initialize RoundKey
 	
 	//the table for the S-boxes. NOTE: Indices greater than 9 will need to be converted from hex to integer
-	final private static int[][] subTable = 
+ 	final private static int[][] subTable = 
 			{{0x63,0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76},
 			 {0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0},
 			 {0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15},
@@ -42,10 +44,10 @@ public class AES {
 	     {0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61},
 	     {0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d}};
 	
-	      //Tables for byte multiplication
+	//Tables for byte multiplication
 
-			// the "E" table -- antilogs
-			 private final static int[][] Etable = 
+	// the "E" table -- antilogs
+	private final static int[][] Etable = 
 			{{0x01, 0x03, 0x05, 0x0F, 0x11, 0x33, 0x55, 0xFF, 0x1A, 0x2E, 0x72, 0x96, 0xA1, 0xF8, 0x13, 0x35},
 			 {0x5F, 0xE1, 0x38, 0x48, 0xD8, 0x73, 0x95, 0xA4, 0xF7, 0x02, 0x06, 0x0A, 0x1E, 0x22, 0x66, 0xAA},
 			 {0xE5, 0x34, 0x5C, 0xE4, 0x37, 0x59, 0xEB, 0x26, 0x6A, 0xBE, 0xD9, 0x70, 0x90, 0xAB, 0xE6, 0x31},
@@ -63,8 +65,8 @@ public class AES {
 			 {0x12, 0x36, 0x5A, 0xEE, 0x29, 0x7B, 0x8D, 0x8C, 0x8F, 0x8A, 0x85, 0x94, 0xA7, 0xF2, 0x0D, 0x17},
 			 {0x39, 0x4B, 0xDD, 0x7C, 0x84, 0x97, 0xA2, 0xFD, 0x1C, 0x24, 0x6C, 0xB4, 0xC7, 0x52, 0xF6, 0x01}};
 			
-			//the "L" table -- logs
-			private final static int[][] Ltable=
+	//the "L" table -- logs
+	private final static int[][] Ltable=
 			{{0x00, 0x00, 0x19, 0x01, 0x32, 0x02, 0x1A, 0xC6, 0x4B, 0xC7, 0x1B, 0x68, 0x33, 0xEE, 0xDF, 0x03},
 			 {0x64, 0x04, 0xE0, 0x0E, 0x34, 0x8D, 0x81, 0xEF, 0x4C, 0x71, 0x08, 0xC8, 0xF8, 0x69, 0x1C, 0xC1},
 			 {0x7D, 0xC2, 0x1D, 0xB5, 0xF9, 0xB9, 0x27, 0x6A, 0x4D, 0xE4, 0xA6, 0x72, 0x9A, 0xC9, 0x09, 0x78},
@@ -85,48 +87,203 @@ public class AES {
 	/**
 	 * Constructor function
 	 * @param key Hex string of the key
+	 * @throws Exception 
 	 */
-	public AES(String key) {
-		
-		
-	}
-	
-	/**
-	 * This is just being left here for debugging functions. It won't be needed in the final class.
-	 */
-	public static void main(String[] args) {
-		System.out.println(Integer.toHexString(byteMultiplyX(0x57,0x13)));
-	}
-	
-	/*
-	 * Multiplies 2 word values (it is assumed there are 4 bytes in a word)
-	 * @param int num1
-	 * @param int num2
-	 * @return the multiplication result
-	 */
-	private static int wordMultiply(int num1, int num2) {
-		int[] a = intToArray(num1);
-		int[] b = intToArray(num2);
-		int[] d = new int[4];
-		d[0] = addition(addition(addition(byteMultiply(a[0],b[0]), byteMultiply(a[3],b[1])),byteMultiply(a[2],b[2])), byteMultiply(a[1],b[3]));
-		d[1] = addition(addition(addition(byteMultiply(a[1],b[0]), byteMultiply(a[0],b[1])),byteMultiply(a[3],b[2])), byteMultiply(a[2],b[3]));
-		d[2] = addition(addition(addition(byteMultiply(a[2],b[0]), byteMultiply(a[1],b[1])),byteMultiply(a[0],b[2])), byteMultiply(a[3],b[3]));
-		d[3] = addition(addition(addition(byteMultiply(a[3],b[0]), byteMultiply(a[2],b[1])),byteMultiply(a[1],b[2])), byteMultiply(a[0],b[3]));
-		return d[0];
-	}
-	
-	/*
-	 * Converts an int word to an array of integer bytes.
-	 * @param int num
-	 * @return int array
-	 */
-	private static int[] intToArray(int num) {
-		byte[] a1 = ByteBuffer.allocate(4).putInt(num).array();
-		int[] a = new int[4];
-		for (int i = 0; i < 4; i++) {
-			a[i] = (int)a1[i];
+	public AES(byte[] k) throws Exception {
+		keyArray = new int[k.length]; //store the raw key
+		for (int i = 0; i < k.length; i++) {
+			keyArray[i] = (int)(k[i] & 0xff);
 		}
-		return a;
+		//calculate number of bits in key
+		int keylength = keyArray.length * 2 * 4; //one byte for every character
+		//find the value of Nk based on key length
+		Nk = keylength / 32;
+		//set the value of Nr based on Nk
+		if (Nk == 4) {
+			Nr = 10;
+		}
+		else if (Nk == 6) {
+			Nr = 12;
+		}
+		else if (Nk == 8) {
+			Nr = 14;
+		}
+		else {
+			System.out.println("Invalid key length: " + keylength + " bits");
+			throw new Exception();
+		}
+		//convert the key into an array
+		//create word array
+		roundArray = new int[Nk][Nk*(Nr+1)];
+		keyExpansion();
+	}
+	
+	private int[][] bytesToInt(byte[] in) {
+		int[][] result = null;
+		if (in.length % 4 == 0) {
+			int len = in.length / 4;
+			result = new int[4][len];
+			int k = 0;
+			for (int i = 0; i < 4; i++) {
+				for (int j = 0; j < len; j++) {
+					result[i][j] = (in[k] & 0xFF);
+					k += 1;
+				}
+			}
+			
+		}
+		return result;
+	}
+	
+	public byte[] intToByte(int[][] in) {
+		byte[] result = new byte[in.length*in[0].length];
+		int k = 0;
+		for (int i = 0; i < in.length; i++) {
+			for (int j = 0; j < in[0].length; j++) {
+				result[k] = (byte)in[i][j];
+				k += 1;
+			}
+		}
+		return result;
+	}
+	
+	public byte[] encrypt(byte[] input) {
+		int[][] state = bytesToInt(input);
+		 
+		// the key for this round is just the cipher key, which is the first 4 cols of the key expansion
+		for (int i=0; i<4; i++) {
+			for (int j = 0; j<4; j++) {
+				RoundKey[i][j] = roundArray[i][j];
+			}
+		}
+		AddRoundKey(state,RoundKey);
+			 
+		// Begin cycle for plaintext encryption -- do Nr-1 cycles
+		for (int cycle = 1; cycle < Nr; cycle++) {
+			SubBytes(state);
+			shiftRows(state);
+			MixCols(state);
+				
+			// get cols of key for this round
+			for(int i = 0;i<4;i++) {
+				for (int j = 0; j<4; j++) {
+					RoundKey[i][j] = roundArray[i][j+4*cycle];
+				}
+			}
+				 	
+			AddRoundKey(state,RoundKey);
+		}
+			 
+		// Last cycle (has no MixCols)
+		SubBytes(state);
+		shiftRows(state);
+			 	
+		// get last cols of key
+		for (int i=0; i<4; i++) {
+			for (int j=0; j<4; j++) {
+				RoundKey[i][j] = roundArray[i][j+40];
+			}
+		}
+			 		
+		AddRoundKey(state,RoundKey);
+		System.out.println("CipherText:");
+		PrintArray(state);
+		
+		byte[] result = intToByte(state);
+		return result;
+	}
+	
+	public byte[] decrypt(byte[] input) {
+		
+        System.out.println("Begin decrypt:");
+		int[][] state = new int[4][Nb];
+
+		for (int i = 0; i < input.length; i++) {
+			state[i % 4][i / 4] = (int)(input[i%4*4+i/4] & 0xff);
+		}
+		
+		//get the last 4 cols of the key expansion
+		for (int i=0; i<4; i++) {
+			for (int j = 0; j < 4; j++) {
+				RoundKey[i][j] = roundArray[i][roundArray[0].length-((4-j))];
+			}
+		}
+		AddRoundKey(state, RoundKey);
+		
+		for (int round = Nr-1; round >=1; round--) {
+			invSubBytes(state);
+			InvShiftRows(state);
+			for (int i=0; i < 4; i++) {
+				for (int j = 0; j < 4; j++) {
+					RoundKey[i][3-j] = roundArray[i][roundArray[0].length-(4*((Nr-1)-round)+j+5)];
+				}
+			}
+			AddRoundKey(state, RoundKey);
+			InvMixCols(state);
+		}
+		
+		invSubBytes(state);
+		InvShiftRows(state);
+		for (int i=0; i<4; i++) {
+			for (int j = 0; j<4; j++) {
+				RoundKey[i][j] = roundArray[i][j];
+			}
+		}
+		AddRoundKey(state, RoundKey);
+
+		PrintArray(state);
+		byte[] result = intToByte(state);
+
+		return result;
+	}
+	
+	private void keyExpansion() {
+		
+		// put key into words, we need Nb * (Nr + 1) words 
+		// each key is only Nb words
+		// 10 rounds of keys plus the initial round
+				 
+		//int [][] words = new int[Nb][Nb * (Nr + 1)];
+				 
+		for(int i=0;i<Nk;i++) {
+			for(int j=0; j<Nb;j++) {
+				roundArray[j][i] = keyArray[(i*Nb)+(j)]; // puts key into first Nk columns of words
+			}
+		}
+		int temp[] = new int[Nb];		// initialize temp vector
+		int Rcon[] = new int[Nb]; 	// initialize Round Constant vector
+				 
+		// for round = 1 to Nr, Key expansion
+		// round = j/Nk
+				 
+		int j = Nk;				// j is counter for columns in word vector
+		 while (j< Nb * (Nr + 1)) {
+			for (int i=0; i<Nb;i++) {
+				temp[i] = roundArray[i][(j-1)];	// put previous column into temp
+			}
+					 	
+			if (j % Nk == 0) {				// multiple of Nk, start of new round key
+				RotWord(temp);				// rotate this col
+				SubWord(temp);	// look up values in s-box substitution for this col
+				GetRcon(j/Nk,Rcon);		// calculate the Round Constant for this round = {2 ^ round-1, 0,0,0}
+				for (int i = 0; i < Nb; i++) {
+					temp[i] = temp[i] ^ Rcon[i];
+				}
+						 
+			}
+					 
+			else if ((Nk > 6) && (j % Nk == 4)) {	// For Nk = 8, we want to s-box substitute the 4th column
+				SubWord(temp);
+			}
+					 
+			for (int i=0; i<Nb; i++) {
+				roundArray[i][j] = roundArray[i][j-Nk] ^ temp[i];
+			}
+			j=j+1;
+					 	
+		 }
+					 // Calculated all the keys needed for encryption
+				 	 // each key is 4 rows
 	}
 	
 	/*
@@ -135,7 +292,7 @@ public class AES {
 	 * @param int num2
 	 * @return the multiplication result
 	 */
-	private static int byteMultiplyX(int num1, int num2) {
+	private int byteMultiplyX(int num1, int num2) {
 		 int result;
 		 int r1 = xtime(num1);
 		 if ((num2 % 2) == 1) {
@@ -160,7 +317,7 @@ public class AES {
 	 * @param int num
 	 * @return the result
 	 */
-	private static int xtime(int num) {
+	private int xtime(int num) {
 		int temp = num;   
         temp &= 0x80; 
         num <<= 1;  //multiply by 2
@@ -177,7 +334,7 @@ public class AES {
 	 * @param int num2
 	 * @return the result of the multiplication of num1 and num2
 	 */
-	private static int byteMultiply(int num1, int num2) {
+	private int byteMultiply(int num1, int num2) {
 		int total = GetRowCol(num1) + GetRowCol(num2);
 		if (total > 255) {
 			total=total-255 ; 	// make sure the total isn't bigger than 255
@@ -194,7 +351,7 @@ public class AES {
 	/*
 	 * Uses the hex values to index a table of log values for byte multiplication
 	 */	
-	private static int GetRowCol(int num1)
+	private int GetRowCol(int num1)
 	{
 		int row = num1 ;
 		int col = num1 ;
@@ -213,7 +370,7 @@ public class AES {
 	 * @param num2 Hex string of the second number 
 	 * @return the added string
 	 */
-	private static String addition(String num1, String num2) {
+	private String addition(String num1, String num2) {
 		//It's easier just to convert the strings to integers and XOR them, 
 		//rather than doing it character by character.
 		int n1 = Integer.parseInt(num1.replace("0x", ""), 16);
@@ -225,14 +382,14 @@ public class AES {
 	/*
 	 * Integer version of above function.
 	 */
-	private static int addition(int num1, int num2) {
+	private int addition(int num1, int num2) {
 		//It's easier just to convert the strings to integers and XOR them, 
 		//rather than doing it character by character.
 		int result = (num1 ^ num2); //actual XOR
 		return result;
 	}
 	
-	private static void SubBytes(int[][] state)
+	private void SubBytes(int[][] state)
 	{
 		for(int row=0; row<4; row++)
 		{
@@ -248,7 +405,7 @@ public class AES {
 			
 	}
 	
-	private static void invSubBytes(int[][] state)
+	private void invSubBytes(int[][] state)
 	{
 		for(int row=0; row<4; row++){
 			for(int col=0; col<Nb; col++){
@@ -260,33 +417,20 @@ public class AES {
 		}
 	}
 	
-	private static int left( int val )
+	private int left( int val )
 	   {
 	        final int LMASK=0x000000f0;
 	        return (  (val & LMASK)>>4 );
 	   }
 	 
-	private static int right( int val )
+	private int right( int val )
 	   {
 	        final int RMASK=0x0000000f;
 	        return (  (val & RMASK) );
 	        
 	   }
 	
-	/*
-	private static int byteMultiply(int num1, int num2) 
-	{
-		int total = Ltable[left(num1)][right(num1)] + Ltable[left(num2)][right(num2)];
-		if (total > 255) {
-			total=total-255 ; 	// make sure the total isn't bigger than 255
-			}
-			
-			//get the result from the antilog table
-			
-			return Etable[left(total)][right(total)];
-	}*/
-	
-	public static void shiftRows(int[][] state)
+	public void shiftRows(int[][] state)
 	{
 		int[] temp= new int[4];
 		for (int row=0; row<4; row++)
@@ -299,17 +443,18 @@ public class AES {
 				// (col + row) mod Nb will give us what we want
 				
 				// store values into a temp array
-				temp[col]=state[row][(col+row)%Nb];
-			for(col=0; col<Nb; col++)
+				temp[col]=state[row][(col+row)%Nb];	
+			}
+			
+			for(int col=0; col<Nb; col++)
 			{
 				// write values into state
 				state[row][col] = temp [col];
 			}
-			}
 		}
 	}
 	
-	public static void InvShiftRows(int[][] state)
+	public void InvShiftRows(int[][] state)
 	{
 		int[] temp= new int[4];
 		for (int row=0; row<4; row++)
@@ -324,28 +469,29 @@ public class AES {
 				
 				// store values into a temp array
 				temp[(col+row)%Nb]=state[row][col];
-			for(col=0; col<Nb; col++)
+			}
+			for(int col=0; col<Nb; col++)
 			{
 				// write values into state
 				state[row][col] = temp [col];
 			}
-			}
 		}
 	}
-	public static void MixCols(int [][] state)
+	
+	public void MixCols(int [][] state)
 	{
 		int[] temp= new int[4];
 		for (int col=0; col<Nb; col++)
 		{
 			// compute new columns, store in temp vector, write to new state afterwards
-			temp[0] = byteMultiply(state[0][col],2) ^ byteMultiply(state[1][col],3) ^
+			temp[0] = byteMultiplyX(state[0][col],2) ^ byteMultiplyX(state[1][col],3) ^
 						state[2][col] ^ state[3][col];
-			temp[1] = state[0][col] ^ byteMultiply(state[1][col],2) ^
-						byteMultiply(state[2][col],3) ^ state[3][col];
+			temp[1] = state[0][col] ^ byteMultiplyX(state[1][col],2) ^
+						byteMultiplyX(state[2][col],3) ^ state[3][col];
 			temp[2] = state[0][col] ^ state[1][col] ^ 
-						byteMultiply(state[2][col],2) ^ byteMultiply(state[3][col],3);
-			temp[3] = byteMultiply(state[0][col],3) ^ state[1][col] ^
-						state[2][col] ^ byteMultiply(state[3][col],2);
+						byteMultiplyX(state[2][col],2) ^ byteMultiplyX(state[3][col],3);
+			temp[3] = byteMultiplyX(state[0][col],3) ^ state[1][col] ^
+						state[2][col] ^ byteMultiplyX(state[3][col],2);
 			
 			for (int i=0; i<4; i++)
 			{
@@ -354,20 +500,20 @@ public class AES {
 		}
 	}
 	
-	public static void InvMixCols(int [][] state)
+	public void InvMixCols(int [][] state)
 	{
 		int[] temp= new int[4];
 		for (int col=0; col<Nb; col++)
 		{
 			// compute new columns, store in temp vector, write to new state afterwards
-			temp[0] = byteMultiply(state[0][col],0x0e) ^ byteMultiply(state[1][col],0x0b)
-				   ^  byteMultiply(state[2][col],0x0d) ^ byteMultiply(state[3][col],0x09);
-			temp[1] = byteMultiply(state[0][col],0x09) ^ byteMultiply(state[1][col],0x0e)
-				   ^  byteMultiply(state[2][col],0x0b) ^ byteMultiply(state[3][col],0x0d);
-			temp[2] = byteMultiply(state[0][col],0x0d) ^ byteMultiply(state[1][col],0x09) 
-				   ^  byteMultiply(state[2][col],0x0e) ^ byteMultiply(state[3][col],0x0b);
-			temp[3] = byteMultiply(state[0][col],0x0b) ^ byteMultiply(state[1][col],0x0d)
-				   ^  byteMultiply(state[2][col],0x09) ^ byteMultiply(state[3][col],0x0e);
+			temp[0] = byteMultiplyX(state[0][col],0x0e) ^ byteMultiplyX(state[1][col],0x0b)
+				   ^  byteMultiplyX(state[2][col],0x0d) ^ byteMultiplyX(state[3][col],0x09);
+			temp[1] = byteMultiplyX(state[0][col],0x09) ^ byteMultiplyX(state[1][col],0x0e)
+				   ^  byteMultiplyX(state[2][col],0x0b) ^ byteMultiplyX(state[3][col],0x0d);
+			temp[2] = byteMultiplyX(state[0][col],0x0d) ^ byteMultiplyX(state[1][col],0x09) 
+				   ^  byteMultiplyX(state[2][col],0x0e) ^ byteMultiplyX(state[3][col],0x0b);
+			temp[3] = byteMultiplyX(state[0][col],0x0b) ^ byteMultiplyX(state[1][col],0x0d)
+				   ^  byteMultiplyX(state[2][col],0x09) ^ byteMultiplyX(state[3][col],0x0e);
 			
 			for (int i=0; i<4; i++)
 			{
@@ -376,6 +522,80 @@ public class AES {
 		}
 	}
 	
+	public static void AddRoundKey(int state[][], int key[][])
+	{
+	for (int i=0; i<4; i++)
+	{
+		for (int j = 0; j<4; j++)
+		{
+			state[i][j]=state[i][j] ^ key[i][j];
+		}
+	}
+	}
 	
+	public static void PrintArray(int words [][]) // This is just used for checking
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j=0; j<4; j++)
+			{
+				System.out.print(Integer.toHexString(words[i][j]) + " ");
+			}
+			System.out.println("");
+		}
+	}
+	
+	public static void PrintWords(int words[][]) // This is just used for checking
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j=0; j<44; j++)
+			{
+				System.out.print(Integer.toHexString(words[i][j]) + " ");
+			}
+			System.out.println("");
+		}
+	}
+	
+	public int[] RotWord(int word[]) //Rotates vector
+	{
+		int a = 0;
+		a = word[0];
+		word[0] = word[1];
+		word[1] = word[2];
+		word[2] = word[3];
+		word[3] = a;
+		return word;
+	}
+	
+	public int[] SubWord(int[] word) //S-box substitution on vector
+	{
+		int x; int y;
+		for(int col=0; col<4; col++)
+		{
+			 x=left(word[col]);
+			 y=right(word[col]);	
+			 word[col]=subTable[x][y];
+		}
+		return word;
+	}
+	
+	public void GetRcon(int Round, int Vector[]) // Gets Round Constant vector; we use this because we don't have 
+														// exponentiation in Java
+	{
+		int k = 1;
+		for (int i=0; i<4; i++)
+			Vector[i]=0;
+		
+		if (Round != 0){
+			
+			for (int i=2;i<=Round; i++)
+				{
+				k = xtime(k);
+				}
+			Vector[0] = k;
+		}	
+	}
+		
 
 }
