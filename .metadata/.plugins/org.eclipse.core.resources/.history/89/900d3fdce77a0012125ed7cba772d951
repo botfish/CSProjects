@@ -1,0 +1,67 @@
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
+public class Test {
+
+	public static void main(String[] args) {
+		/*int[] key = {0x2b,0x7e,0x15,0x16,
+			 	0x28,0xae,0xd2,0xa6,
+			 	0xab,0xf7,0x15,0x88,
+			 	0x09,0xcf,0x4f,0x3c}; 128-bit */
+		
+		//generate a key using Java's built-in methods
+		KeyGenerator keyGen = null;
+		try {
+			keyGen = KeyGenerator.getInstance("AES");
+		} catch (NoSuchAlgorithmException e1) {
+			e1.printStackTrace();
+		}
+		keyGen.init(256); //set the size of the key (can be changed)
+		SecretKey keyObj = keyGen.generateKey();
+		byte[] key = keyObj.getEncoded();
+		
+		int[] key1 = {0x00,0x01,0x02,0x03,0x04,0x05,
+			 	0x06,0x07,0x08,0x09,0x0a,0x0b,
+			 	0x0c,0x0d,0x0e,0x0f,0x10,0x11,
+			 	0x12,0x13,0x14,0x15,0x16,0x17,
+			 	0x18,0x19,0x1a,0x1b,0x1c,0x1d,
+			 	0x1e,0x1f};
+		byte[] key2 = new byte[key1.length];
+		for (int i = 0; i < key.length; i++) {
+			key2[i] = (byte)(key1[i]);
+		}
+		
+		AES test = null;
+		try {
+			test = new AES(key2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		 int[][] state =
+				{{0x32, 0x88, 0x31, 0xe0},
+				 {0x43, 0x5a, 0x31, 0x37},
+				 {0xf6, 0x30, 0x98, 0x07},
+				 {0xa8, 0x8d, 0xa2, 0x34}};
+		 
+		 byte[] test1 = intToByte(state);
+		 byte[] n = test.encrypt(test1);
+		 test.decrypt(n);
+
+	}
+	
+	public static byte[] intToByte(int[][] in) {
+		byte[] result = new byte[in.length*in[0].length];
+		int k = 0;
+		for (int i = 0; i < in.length; i++) {
+			for (int j = 0; j < in[0].length; j++) {
+				result[k] = (byte)in[i][j];
+				k += 1;
+			}
+		}
+		return result;
+	}
+
+}

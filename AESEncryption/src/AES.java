@@ -114,7 +114,7 @@ public class AES {
 		}
 		//convert the key into an array
 		//create word array
-		roundArray = new int[Nk][Nk*(Nr+1)];
+		roundArray = new int[Nb][Nb * (Nr + 1)];
 		keyExpansion();
 	}
 	
@@ -148,11 +148,20 @@ public class AES {
 	}
 	
 	public byte[] encrypt(byte[] input) {
-		int[][] state = bytesToInt(input);
+		byte[] output = new byte[input.length];
+		int blocks = input.length / (Nb*Nb);
+		
+		for (int n = 0; n < blocks; n++) {
+		byte[] in = new byte[Nb*Nb];
+		for (int i = 0; i < in.length; i ++) {
+			in[i] = input[(n*(Nb*Nb))+i];
+		}
+		
+		int[][] state = bytesToInt(in);
 		 
 		// the key for this round is just the cipher key, which is the first 4 cols of the key expansion
-		for (int i=0; i<4; i++) {
-			for (int j = 0; j<4; j++) {
+		for (int i=0; i<Nb; i++) {
+			for (int j = 0; j<Nb; j++) {
 				RoundKey[i][j] = roundArray[i][j];
 			}
 		}
@@ -165,9 +174,9 @@ public class AES {
 			MixCols(state);
 				
 			// get cols of key for this round
-			for(int i = 0;i<4;i++) {
-				for (int j = 0; j<4; j++) {
-					RoundKey[i][j] = roundArray[i][j+4*cycle];
+			for(int i = 0;i<Nb;i++) {
+				for (int j = 0; j<Nb; j++) {
+					RoundKey[i][j] = roundArray[i][j+Nb*cycle];
 				}
 			}
 				 	
@@ -179,9 +188,9 @@ public class AES {
 		shiftRows(state);
 			 	
 		// get last cols of key
-		for (int i=0; i<4; i++) {
-			for (int j=0; j<4; j++) {
-				RoundKey[i][j] = roundArray[i][j+40];
+		for (int i=0; i<Nb; i++) {
+			for (int j=0; j<Nb; j++) {
+				RoundKey[i][j] = roundArray[i][j+Nr*Nb];
 			}
 		}
 			 		
@@ -190,22 +199,34 @@ public class AES {
 		PrintArray(state);
 		
 		byte[] result = intToByte(state);
-		return result;
+		for(int i = 0; i < result.length; i++) {
+			output[(n*(Nb*Nb))+i] = result[i];
+		}
+		}
+		return output;
 	}
 	
 	public byte[] decrypt(byte[] input) {
+		byte[] output = new byte[input.length];
+		int blocks = input.length / (Nb*Nb);
+		
+		for (int n = 0; n < blocks; n++) {
+		byte[] in = new byte[Nb*Nb];
+		for (int i = 0; i < in.length; i ++) {
+			in[i] = input[(n*(Nb*Nb))+i];
+		}
 		
         System.out.println("Begin decrypt:");
 		int[][] state = new int[4][Nb];
 
-		for (int i = 0; i < input.length; i++) {
-			state[i % 4][i / 4] = (int)(input[i%4*4+i/4] & 0xff);
+		for (int i = 0; i < in.length; i++) {
+			state[i % 4][i / 4] = (int)(in[i%4*4+i/4] & 0xff);
 		}
 		
 		//get the last 4 cols of the key expansion
-		for (int i=0; i<4; i++) {
-			for (int j = 0; j < 4; j++) {
-				RoundKey[i][j] = roundArray[i][roundArray[0].length-((4-j))];
+		for (int i=0; i<Nb; i++) {
+			for (int j = 0; j < Nb; j++) {
+				RoundKey[i][j] = roundArray[i][roundArray[0].length-((Nb-j))];
 			}
 		}
 		AddRoundKey(state, RoundKey);
@@ -213,9 +234,9 @@ public class AES {
 		for (int round = Nr-1; round >=1; round--) {
 			invSubBytes(state);
 			InvShiftRows(state);
-			for (int i=0; i < 4; i++) {
-				for (int j = 0; j < 4; j++) {
-					RoundKey[i][3-j] = roundArray[i][roundArray[0].length-(4*((Nr-1)-round)+j+5)];
+			for (int i=0; i < Nb; i++) {
+				for (int j = 0; j < Nb; j++) {
+					RoundKey[i][(Nb-1)-j] = roundArray[i][roundArray[0].length-(Nb*((Nr-1)-round)+j+(Nb+1))];
 				}
 			}
 			AddRoundKey(state, RoundKey);
@@ -224,8 +245,8 @@ public class AES {
 		
 		invSubBytes(state);
 		InvShiftRows(state);
-		for (int i=0; i<4; i++) {
-			for (int j = 0; j<4; j++) {
+		for (int i=0; i<Nb; i++) {
+			for (int j = 0; j<Nb; j++) {
 				RoundKey[i][j] = roundArray[i][j];
 			}
 		}
@@ -234,7 +255,12 @@ public class AES {
 		PrintArray(state);
 		byte[] result = intToByte(state);
 
-		return result;
+		for(int i = 0; i < result.length; i++) {
+			output[(n*(Nb*Nb))+i] = result[i];
+		}
+		}
+
+		return output;
 	}
 	
 	private void keyExpansion() {
@@ -282,8 +308,8 @@ public class AES {
 			j=j+1;
 					 	
 		 }
-					 // Calculated all the keys needed for encryption
-				 	 // each key is 4 rows
+	// Calculated all the keys needed for encryption
+	// each key is 4 rows and 4 columns
 	}
 	
 	/*
@@ -535,11 +561,11 @@ public class AES {
 	
 	public static void PrintArray(int words [][]) // This is just used for checking
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < words.length; i++)
 		{
-			for (int j=0; j<4; j++)
+			for (int j=0; j< words[0].length; j++)
 			{
-				System.out.print(Integer.toHexString(words[i][j]) + " ");
+				System.out.print(Integer.toHexString(words[j][i]) + " ");
 			}
 			System.out.println("");
 		}
