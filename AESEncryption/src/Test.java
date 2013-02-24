@@ -6,10 +6,6 @@ import javax.crypto.SecretKey;
 public class Test {
 
 	public static void main(String[] args) {
-		/*int[] key = {0x2b,0x7e,0x15,0x16,
-			 	0x28,0xae,0xd2,0xa6,
-			 	0xab,0xf7,0x15,0x88,
-			 	0x09,0xcf,0x4f,0x3c}; 128-bit */
 		
 		//generate a key using Java's built-in methods
 		KeyGenerator keyGen = null;
@@ -18,7 +14,7 @@ public class Test {
 		} catch (NoSuchAlgorithmException e1) {
 			e1.printStackTrace();
 		}
-		keyGen.init(256); //set the size of the key (can be changed)
+		keyGen.init(128); //set the size of the key (can be changed)
 		SecretKey keyObj = keyGen.generateKey();
 		byte[] key = keyObj.getEncoded();
 
@@ -29,31 +25,28 @@ public class Test {
 			e.printStackTrace();
 		}
 		
-		int[][] state =
-			{{0x00, 0x44, 0x88, 0xcc},
-			 {0x11, 0x55, 0x99, 0xdd},
-			 {0x22, 0x66, 0xaa, 0xee},
-			 {0x33, 0x77, 0xbb, 0xff}, {0x00, 0x44, 0x88, 0xcc},
-			 {0x11, 0x55, 0x99, 0xdd},
-			 {0x22, 0x66, 0xaa, 0xee},
-			 {0x33, 0x77, 0xbb, 0xff}};
+		byte[] state = //plaintext (2 blocks)
+			{(byte) 0x54, (byte)0x44, (byte)0x88, (byte)0xcc, (byte)0x11,(byte) 0x55, (byte)0x91, (byte)0xdd, 
+				(byte)0x22, (byte)0x66, (byte)0xaf, (byte)0xed, (byte)0x36, (byte)0x77, (byte)0xcb, 
+				(byte)0xff, (byte)0x92, (byte)0x44, (byte)0x88,(byte) 0xcc, (byte)0x11, (byte)0x55, 
+				(byte)0x99, (byte)0xda, (byte)0x22,(byte) 0x66, (byte)0xaa, (byte)0xee, (byte)0x33, 
+				(byte)0x00, (byte)0xbb, (byte)0xff};
 		 
-		 byte[] test1 = intToByte(state);
-		 byte[] n = test.encrypt(test1);
+		 byte[] n = test.encrypt(state);
 		 test.decrypt(n);
 
 	}
 	
-	public static byte[] intToByte(int[][] in) {
-		byte[] result = new byte[in.length*in[0].length];
-		int k = 0;
-		for (int i = 0; i < in.length; i++) {
-			for (int j = 0; j < in[0].length; j++) {
-				result[k] = (byte)in[i][j];
-				k += 1;
-			}
+	/*
+	 * Prints a byte array in human readable form. Only used for checking.
+	 * @param byte[] words the array to print
+	 */
+	private static void PrintArray(byte[] words) 
+	{
+		for (int i = 0; i < words.length; i++)
+		{
+				System.out.print(Integer.toHexString((words[i] & 0xFF)) + " ");
 		}
-		return result;
 	}
 
 }

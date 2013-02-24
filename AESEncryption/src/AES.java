@@ -1,10 +1,18 @@
+/*
+ * Computer Security, Spring 2013, Project 1 - AES implementation
+ * Authors: Judy Price, Elizabeth Walkup
+ * 
+ * A user of this class will construct an object of type AES using a key. They can then call
+ * encrypt() and decrypt() to encrypt plaintext or decrypt ciphertext using that key.
+ */
+
 public class AES {
 	
 	private final int Nb = 4;
 	private int Nk; //will be 4, 6 or 8
 	private int Nr; //number of rounds - will be 10, 12, or 14
-	private int[] keyArray;
-	private int[][] roundArray;
+	private int[] keyArray; //integer version of initial key
+	private int[][] roundArray; //holds all round keys
 	private int RoundKey [][] = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}}; // initialize RoundKey
 	
 	//the table for the S-boxes. NOTE: Indices greater than 9 will need to be converted from hex to integer
@@ -86,10 +94,12 @@ public class AES {
   	
 	/**
 	 * Constructor function
-	 * @param key Hex string of the key
+	 * @param k byte array of the key
 	 * @throws Exception 
 	 */
 	public AES(byte[] k) throws Exception {
+		//System.out.println("Key:");
+		//PrintArray(k);
 		keyArray = new int[k.length]; //store the raw key
 		for (int i = 0; i < k.length; i++) {
 			keyArray[i] = (int)(k[i] & 0xff);
@@ -118,6 +128,11 @@ public class AES {
 		keyExpansion();
 	}
 	
+	/*
+	 * Converts a one-dimensional byte array to a two-dimensional int array that's easier to manipulate.
+	 * @param in byte array 
+	 * @return the two-dimensional integer array
+	 */
 	private int[][] bytesToInt(byte[] in) {
 		int[][] result = null;
 		if (in.length % 4 == 0) {
@@ -135,9 +150,14 @@ public class AES {
 		return result;
 	}
 	
-	public byte[] intToByte(int[][] in) {
+	/*
+	 * Converts a 2D integer array back to a one-dimensional byte array for results
+	 * @param in integer array
+	 * @return byte array
+	 */
+	private byte[] intToByte(int[][] in) {
 		byte[] result = new byte[in.length*in[0].length];
-		int k = 0;
+		int k = 0; //one-dimensional index
 		for (int i = 0; i < in.length; i++) {
 			for (int j = 0; j < in[0].length; j++) {
 				result[k] = (byte)in[i][j];
@@ -147,129 +167,162 @@ public class AES {
 		return result;
 	}
 	
+	/*
+	 * Takes a message in the form of a byte array and encrypts it using the key given in the constructor.
+	 * It return a byte array of the same length as the input array.
+	 * Note: The message MUST be even divisible by Nb*Nb, since no padding is specified in the AES specifications.
+	 * @param input byte array of plaintext
+	 * @return byte array of ciphertext
+	 */
 	public byte[] encrypt(byte[] input) {
-		byte[] output = new byte[input.length];
-		int blocks = input.length / (Nb*Nb);
+		byte[] output = new byte[input.length]; //holds the result for the encryption of all blocks
+		int blocks = input.length / (Nb*Nb); 
 		
-		for (int n = 0; n < blocks; n++) {
-		byte[] in = new byte[Nb*Nb];
-		for (int i = 0; i < in.length; i ++) {
-			in[i] = input[(n*(Nb*Nb))+i];
-		}
-		
-		int[][] state = bytesToInt(in);
-		 
-		// the key for this round is just the cipher key, which is the first 4 cols of the key expansion
-		for (int i=0; i<Nb; i++) {
-			for (int j = 0; j<Nb; j++) {
-				RoundKey[i][j] = roundArray[i][j];
+		if ((input.length % (Nb*Nb)) != 0) {
+			System.out.println("The message is not evenly divisible by " +(Nb*Nb)+
+					", so it cannot be encrypted without a padding protocol");
+			try {
+				throw new Exception();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		AddRoundKey(state,RoundKey);
-			 
-		// Begin cycle for plaintext encryption -- do Nr-1 cycles
-		for (int cycle = 1; cycle < Nr; cycle++) {
-			SubBytes(state);
-			shiftRows(state);
-			MixCols(state);
-				
-			// get cols of key for this round
-			for(int i = 0;i<Nb;i++) {
+		
+		for (int n = 0; n < blocks; n++) { //for each block of plaintezt
+			byte[] in = new byte[Nb*Nb];
+			
+			for (int i = 0; i < in.length; i ++) { //separate out the block we are encrypting
+				in[i] = input[(n*(Nb*Nb))+i];
+			}
+		
+			int[][] state = bytesToInt(in);
+		 
+			//Get the key for this round - just the cipher key, which is the first 4 cols of the key expansion
+			for (int i=0; i<Nb; i++) {
 				for (int j = 0; j<Nb; j++) {
-					RoundKey[i][j] = roundArray[i][j+Nb*cycle];
+					RoundKey[i][j] = roundArray[i][j];
 				}
 			}
-				 	
-			AddRoundKey(state,RoundKey);
-		}
+			AddRoundKey(state,RoundKey); //add the key
 			 
-		// Last cycle (has no MixCols)
-		SubBytes(state);
-		shiftRows(state);
+			// Begin cycle for plaintext block encryption -- do Nr-1 cycles
+			for (int cycle = 1; cycle < Nr; cycle++) {
+				SubBytes(state);
+				shiftRows(state);
+				MixCols(state);
+				
+				//Get the key for this round and put it in RoundKey
+				for(int i = 0;i<Nb;i++) {
+					for (int j = 0; j<Nb; j++) {
+						RoundKey[i][j] = roundArray[i][j+Nb*cycle];
+					}
+				}
+				 	
+				AddRoundKey(state,RoundKey);
+			}
+			 
+			// Last cycle (has no MixCols)
+			SubBytes(state);
+			shiftRows(state);
 			 	
-		// get last cols of key
-		for (int i=0; i<Nb; i++) {
-			for (int j=0; j<Nb; j++) {
-				RoundKey[i][j] = roundArray[i][j+Nr*Nb];
+			// get last cols of key
+			for (int i=0; i<Nb; i++) {
+				for (int j=0; j<Nb; j++) {
+					RoundKey[i][j] = roundArray[i][j+Nr*Nb];
+				}
+			}
+			 		
+			AddRoundKey(state,RoundKey);
+		
+			byte[] result = intToByte(state);
+			//add the result to the end of the output
+			for(int i = 0; i < result.length; i++) {
+				output[(n*(Nb*Nb))+i] = result[i];
 			}
 		}
-			 		
-		AddRoundKey(state,RoundKey);
-		System.out.println("CipherText:");
-		PrintArray(state);
-		
-		byte[] result = intToByte(state);
-		for(int i = 0; i < result.length; i++) {
-			output[(n*(Nb*Nb))+i] = result[i];
-		}
-		}
+		//System.out.println("\nCipher Text:");
+		//PrintArray(output);
 		return output;
 	}
 	
+	/*
+	 * Takes an encrypted message in the form of a byte array and decrypts it using the key given in the constructor.
+	 * It return a byte array of the same length as the input array.
+	 * Note: The message MUST be even divisible by Nb*Nb, since no padding is specified in the AES specifications.
+	 * @param input byte array of plaintext
+	 * @return byte array of ciphertext
+	 */
 	public byte[] decrypt(byte[] input) {
 		byte[] output = new byte[input.length];
 		int blocks = input.length / (Nb*Nb);
 		
 		for (int n = 0; n < blocks; n++) {
-		byte[] in = new byte[Nb*Nb];
-		for (int i = 0; i < in.length; i ++) {
-			in[i] = input[(n*(Nb*Nb))+i];
-		}
-		
-        System.out.println("Begin decrypt:");
-		int[][] state = new int[4][Nb];
-
-		for (int i = 0; i < in.length; i++) {
-			state[i % 4][i / 4] = (int)(in[i%4*4+i/4] & 0xff);
-		}
-		
-		//get the last 4 cols of the key expansion
-		for (int i=0; i<Nb; i++) {
-			for (int j = 0; j < Nb; j++) {
-				RoundKey[i][j] = roundArray[i][roundArray[0].length-((Nb-j))];
+			//separate out the block
+			byte[] in = new byte[Nb*Nb];
+			for (int i = 0; i < in.length; i ++) {
+				in[i] = input[(n*(Nb*Nb))+i];
 			}
-		}
-		AddRoundKey(state, RoundKey);
 		
-		for (int round = Nr-1; round >=1; round--) {
-			invSubBytes(state);
-			InvShiftRows(state);
-			for (int i=0; i < Nb; i++) {
+			int[][] state = new int[4][Nb];
+
+			for (int i = 0; i < in.length; i++) {
+				state[i % 4][i / 4] = (int)(in[i%4*4+i/4] & 0xff);
+			}
+		
+			//get the last 4 cols of the key expansion
+			for (int i=0; i<Nb; i++) {
 				for (int j = 0; j < Nb; j++) {
-					RoundKey[i][(Nb-1)-j] = roundArray[i][roundArray[0].length-(Nb*((Nr-1)-round)+j+(Nb+1))];
+					RoundKey[i][j] = roundArray[i][roundArray[0].length-((Nb-j))];
 				}
 			}
 			AddRoundKey(state, RoundKey);
-			InvMixCols(state);
-		}
 		
-		invSubBytes(state);
-		InvShiftRows(state);
-		for (int i=0; i<Nb; i++) {
-			for (int j = 0; j<Nb; j++) {
-				RoundKey[i][j] = roundArray[i][j];
+			for (int round = Nr-1; round >=1; round--) {
+				//invert the encryption functions
+				invSubBytes(state);
+				InvShiftRows(state);
+				//Get the round key
+				for (int i=0; i < Nb; i++) {
+					for (int j = 0; j < Nb; j++) {
+						RoundKey[i][(Nb-1)-j] = roundArray[i][roundArray[0].length-(Nb*((Nr-1)-round)+j+(Nb+1))];
+					}
+				}
+				AddRoundKey(state, RoundKey);
+				InvMixCols(state);
+			}
+		
+			invSubBytes(state);
+			InvShiftRows(state);
+			//Get the last round key
+			for (int i=0; i<Nb; i++) {
+				for (int j = 0; j<Nb; j++) {
+					RoundKey[i][j] = roundArray[i][j];
+				}
+			}
+			AddRoundKey(state, RoundKey);
+			byte[] result = intToByte(state);
+			//add the result to the total output
+			for(int i = 0; i < result.length; i++) {
+				output[(n*(Nb*Nb))+i] = result[i];
 			}
 		}
-		AddRoundKey(state, RoundKey);
-
-		PrintArray(state);
-		byte[] result = intToByte(state);
-
-		for(int i = 0; i < result.length; i++) {
-			output[(n*(Nb*Nb))+i] = result[i];
-		}
-		}
-
+	    //System.out.println("\nDecryption:");
+		//PrintArray(output);
 		return output;
 	}
 	
+	/*
+	 * This function expands the given key (stored in a class variables) into all of the round
+	 * keys necessary for encryption and decryption. The round keys are stored in a class variable,
+	 * so this method only need to be called once (during object construction). Each resulting key is
+	 * 4 columns and 4 rows in size.
+	 */
 	private void keyExpansion() {
 		
 		// put key into words, we need Nb * (Nr + 1) words 
 		// each key is only Nb words
 		// 10 rounds of keys plus the initial round
 				 
-		//int [][] words = new int[Nb][Nb * (Nr + 1)];
 				 
 		for(int i=0;i<Nk;i++) {
 			for(int j=0; j<Nb;j++) {
@@ -279,8 +332,6 @@ public class AES {
 		int temp[] = new int[Nb];		// initialize temp vector
 		int Rcon[] = new int[Nb]; 	// initialize Round Constant vector
 				 
-		// for round = 1 to Nr, Key expansion
-		// round = j/Nk
 				 
 		int j = Nk;				// j is counter for columns in word vector
 		 while (j< Nb * (Nr + 1)) {
@@ -308,12 +359,10 @@ public class AES {
 			j=j+1;
 					 	
 		 }
-	// Calculated all the keys needed for encryption
-	// each key is 4 rows and 4 columns
 	}
 	
 	/*
-	 * More efficient version of byte multiplication.
+	 * More efficient version of byte multiplication using bit shifting and xtime()
 	 * @param int num1
 	 * @param int num2
 	 * @return the multiplication result
@@ -388,25 +437,12 @@ public class AES {
 		return Ltable[row][col];
 	}
 	
-	
 	/*
-	 * This function adds two binary strings using bitwise XORs. It assumes that both
+	 * This function adds two binary numbers using bitwise XORs. It assumes that both
 	 * numbers are have the same length. This should be usable for both byte and word addition.
-	 * @param num1 Hex string of the first number
-	 * @param num2 Hex string of the second number 
-	 * @return the added string
-	 */
-	private String addition(String num1, String num2) {
-		//It's easier just to convert the strings to integers and XOR them, 
-		//rather than doing it character by character.
-		int n1 = Integer.parseInt(num1.replace("0x", ""), 16);
-		int n2 = Integer.parseInt(num2.replace("0x", ""), 16);
-		int result = (n1 ^ n2); //actual XOR
-		return Integer.toHexString(result);
-	}
-	
-	/*
-	 * Integer version of above function.
+	 * @param num1 int of the first number
+	 * @param num2 int of the second number 
+	 * @return the added int
 	 */
 	private int addition(int num1, int num2) {
 		//It's easier just to convert the strings to integers and XOR them, 
@@ -415,6 +451,10 @@ public class AES {
 		return result;
 	}
 	
+	/*
+	 * Given a two-dimensional state array, it substitutes certain byte values
+	 * based on subTable, which is given in the AES specification.
+	 */
 	private void SubBytes(int[][] state)
 	{
 		for(int row=0; row<4; row++)
@@ -426,11 +466,14 @@ public class AES {
 				 y=right(state[row][col]);	
 				 state[row][col]=subTable[x][y];
 			}
-		}
-		
-			
+		}		
 	}
 	
+	/*
+	 * The inverse of the function SubBytes - this reverses the encryption done by
+	 * SubBytes by looking up and replacing values in another table.
+	 * @param int[][] state
+	 */
 	private void invSubBytes(int[][] state)
 	{
 		for(int row=0; row<4; row++){
@@ -443,12 +486,20 @@ public class AES {
 		}
 	}
 	
+	/*
+	 * Returns the left byte of a hex number
+	 * @param int val the number
+	 */
 	private int left( int val )
 	   {
 	        final int LMASK=0x000000f0;
 	        return (  (val & LMASK)>>4 );
 	   }
-	 
+	
+	/*
+	 * Returns the right byte of a hex number
+	 * @param int val the number
+	 */
 	private int right( int val )
 	   {
 	        final int RMASK=0x0000000f;
@@ -456,7 +507,11 @@ public class AES {
 	        
 	   }
 	
-	public void shiftRows(int[][] state)
+	/*
+	 * Shifts each row in an encryption state for diffusion.
+	 * @param int[][] state
+	 */
+	private void shiftRows(int[][] state)
 	{
 		int[] temp= new int[4];
 		for (int row=0; row<4; row++)
@@ -480,7 +535,11 @@ public class AES {
 		}
 	}
 	
-	public void InvShiftRows(int[][] state)
+	/*
+	 * Reverses the encryption done by ShiftRows by moving rows back to the right.
+	 * @param int[][] state
+	 */
+	private void InvShiftRows(int[][] state)
 	{
 		int[] temp= new int[4];
 		for (int row=0; row<4; row++)
@@ -504,7 +563,11 @@ public class AES {
 		}
 	}
 	
-	public void MixCols(int [][] state)
+	/*
+	 * Scrambles the columns in each row of an encryption state.
+	 * @param int[][] state
+	 */
+	private void MixCols(int [][] state)
 	{
 		int[] temp= new int[4];
 		for (int col=0; col<Nb; col++)
@@ -526,7 +589,11 @@ public class AES {
 		}
 	}
 	
-	public void InvMixCols(int [][] state)
+	/*
+	 * Unscrambles the columns in each row of an encryption state. Inverse of MixCols.
+	 * @param int[][] state
+	 */
+	private void InvMixCols(int [][] state)
 	{
 		int[] temp= new int[4];
 		for (int col=0; col<Nb; col++)
@@ -548,7 +615,12 @@ public class AES {
 		}
 	}
 	
-	public static void AddRoundKey(int state[][], int key[][])
+	/*
+	 * Adds the round key to the current state.
+	 * @param int[][] state the text
+	 * @param int[][] key the round key to add
+	 */
+	private static void AddRoundKey(int state[][], int key[][])
 	{
 	for (int i=0; i<4; i++)
 	{
@@ -559,34 +631,25 @@ public class AES {
 	}
 	}
 	
-	public static void PrintArray(int words [][]) // This is just used for checking
+	/*
+	 * Prints a byte array in human readable form. Only used for checking.
+	 * @param byte[] words the array to print
+	 */
+	private static void PrintArray(byte[] words) 
 	{
 		for (int i = 0; i < words.length; i++)
 		{
-			for (int j=0; j< words[0].length; j++)
-			{
-				System.out.print(Integer.toHexString(words[j][i]) + " ");
-			}
-			System.out.println("");
+				System.out.print(Integer.toHexString((words[i] & 0xFF)) + " ");
 		}
 	}
 	
-	public static void PrintWords(int words[][]) // This is just used for checking
+	/*
+	 * Rotates a word value so that each part is shifted one "spot" to the right.
+	 * @param int[] word the vector to act on
+	 */
+	private int[] RotWord(int word[]) 
 	{
-		for (int i = 0; i < 4; i++)
-		{
-			for (int j=0; j<44; j++)
-			{
-				System.out.print(Integer.toHexString(words[i][j]) + " ");
-			}
-			System.out.println("");
-		}
-	}
-	
-	public int[] RotWord(int word[]) //Rotates vector
-	{
-		int a = 0;
-		a = word[0];
+		int a = word[0]; //temp value
 		word[0] = word[1];
 		word[1] = word[2];
 		word[2] = word[3];
@@ -594,7 +657,11 @@ public class AES {
 		return word;
 	}
 	
-	public int[] SubWord(int[] word) //S-box substitution on vector
+	/*
+	 * Performs S-box substitutions on a vector.
+	 * @param int[] word the vector
+	 */
+	private int[] SubWord(int[] word) 
 	{
 		int x; int y;
 		for(int col=0; col<4; col++)
@@ -606,8 +673,12 @@ public class AES {
 		return word;
 	}
 	
-	public void GetRcon(int Round, int Vector[]) // Gets Round Constant vector; we use this because we don't have 
-														// exponentiation in Java
+	/*
+	 * Finds the round constant vector to use in encryption.
+	 * @param int Round the round numver
+	 * @param int[] Vector the vector to manipulate.
+	 */
+	private void GetRcon(int Round, int Vector[])
 	{
 		int k = 1;
 		for (int i=0; i<4; i++)
