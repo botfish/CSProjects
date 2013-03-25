@@ -2,5 +2,23 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.lang.Integer"/>
 <fullyQualifiedTypeName name="java.nio.ByteBuffer"/>
+<fullyQualifiedTypeName name="java.security.Security"/>
+<fullyQualifiedTypeName name="java.security.Provider"/>
+<fullyQualifiedTypeName name="csec2013.CSec2012Prov"/>
+<fullyQualifiedTypeName name="java.security.AlgorithmParameterGenerator"/>
+<fullyQualifiedTypeName name="java.security.AlgorithmParameterGeneratorSpi"/>
+<fullyQualifiedTypeName name="java.security.AlgorithmParameters"/>
+<fullyQualifiedTypeName name="java.security.KeyPair"/>
+<fullyQualifiedTypeName name="java.security.KeyPairGenerator"/>
+<fullyQualifiedTypeName name="java.security.KeyFactory"/>
+<fullyQualifiedTypeName name="java.security.spec.X509EncodedKeySpec"/>
+<fullyQualifiedTypeName name="java.security.PublicKey"/>
 <fullyQualifiedTypeName name="javax.crypto.SecretKey"/>
+<fullyQualifiedTypeName name="java.awt.RenderingHints.Key"/>
+<fullyQualifiedTypeName name="javax.crypto.spec.IvParameterSpec"/>
+<fullyQualifiedTypeName name="javax.crypto.Cipher"/>
+<fullyQualifiedTypeName name="java.security.spec.AlgorithmParameterSpec"/>
+<fullyQualifiedTypeName name="java.security.SecureRandom"/>
+<fullyQualifiedTypeName name="java.io.ObjectOutputStream"/>
+<fullyQualifiedTypeName name="java.io.ObjectInputStream"/>
 </qualifiedTypeNameHistroy>

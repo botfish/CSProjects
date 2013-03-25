@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Cipher" key="selection"/>
+		<item value="ServerSocket" key="selection"/>
 		<list key="findhistory">
+			<item value="ServerSocket"/>
+			<item value="engineUpdate"/>
+			<item value="engineDoFinal"/>
 			<item value="Cipher"/>
 			<item value="PrintArray"/>
 			<item value="text"/>
 			<item value="printArray"/>
 			<item value="AddRoundKey"/>
-			<item value="Print"/>
-			<item value="intToByte"/>
-			<item value="intTo"/>
 		</list>
 		<list key="replacehistory">
 		</list>
