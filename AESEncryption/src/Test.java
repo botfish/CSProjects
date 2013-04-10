@@ -9,6 +9,8 @@ public class Test {
 
 	public static void main(String[] args) {
 		
+		byte[] test2 = new byte[4];
+		System.out.println("String: " + test2[0]);
 		//generate a key using Java's built-in methods
 		KeyGenerator keyGen = null;
 		try {

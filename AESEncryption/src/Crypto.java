@@ -33,7 +33,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
-import csec2013.CSec2012Prov;
+import csec2013.CSec2013Prov;
 
 
 public class Crypto {
@@ -102,7 +102,7 @@ public class Crypto {
 	public void clientKeySetup(Socket c) {
 		try {
 			//create the provider
-    		prov = new CSec2012Prov();
+    		prov = new CSec2013Prov();
     		//insert the provider at position 1 (highest priority)
     		Security.insertProviderAt(prov, 1);
     		
@@ -180,7 +180,7 @@ public class Crypto {
 	public void serverKeySetup(Socket c) {
     	try {
     		//create the provider
-    		prov = new CSec2012Prov();
+    		prov = new CSec2013Prov();
     		//insert the provider at position 1 (highest priority)
     		Security.insertProviderAt(prov, 1);
     		//generate the generator

@@ -41,27 +41,27 @@
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" partName="Test.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/Test.java" title="Test.java" tooltip="AESEncryption/src/Test.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/Test.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="422" selectionTopPixel="10"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="266" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AESCipher.java" partName="AESCipher.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/csec2013/AESCipher.java" title="AESCipher.java" tooltip="AESEncryption/src/csec2013/AESCipher.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AESCipher.java" partName="AESCipher.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/csec2013/AESCipher.java" title="AESCipher.java" tooltip="AESEncryption/src/csec2013/AESCipher.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/csec2013/AESCipher.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3239" selectionTopPixel="1291"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="10038" selectionTopPixel="3661"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Chat.java" partName="Chat.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/Chat.java" title="Chat.java" tooltip="AESEncryption/src/Chat.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/Chat.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5437" selectionTopPixel="2647"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5438" selectionTopPixel="2499"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSec2012Prov.java" partName="CSec2012Prov.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/csec2013/CSec2012Prov.java" title="CSec2012Prov.java" tooltip="AESEncryption/src/csec2013/CSec2012Prov.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/csec2013/CSec2012Prov.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSec2013Prov.java" partName="CSec2013Prov.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/csec2013/CSec2013Prov.java" title="CSec2013Prov.java" tooltip="AESEncryption/src/csec2013/CSec2013Prov.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/csec2013/CSec2013Prov.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="149" selectionTopPixel="0"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AES.java" partName="AES.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/csec2013/AES.java" title="AES.java" tooltip="AESEncryption/src/csec2013/AES.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/csec2013/AES.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Crypto.java" partName="Crypto.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/Crypto.java" title="Crypto.java" tooltip="AESEncryption/src/Crypto.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Crypto.java" partName="Crypto.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/Crypto.java" title="Crypto.java" tooltip="AESEncryption/src/Crypto.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/Crypto.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5560" selectionTopPixel="2257"/>
+<editorState selectionHorizontalPixel="0" selectionLength="11" selectionOffset="2142" selectionTopPixel="765"/>
 </editor>
 </editors>
 <views>
@@ -265,159 +265,168 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Chat.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Crypto.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/AESCipher.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/CSec2012Prov.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Test.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/AES.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Test.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Chat.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/CSec2012Prov.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/CSec2013Prov.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/AES.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/AESCipher.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Crypto.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/CSec2013Prov.java"/>
 </editors>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="476" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3115" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="476" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="748" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3115" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="1298" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="4482" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="1286" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="4482" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="8640" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="8648" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="1221" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="1941" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="4902" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="1941" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="2644" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="4902" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="7433" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="4902" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="4285" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="7433" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="4482" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="4613" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="1350" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3311" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="5438" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="5438" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3196" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3577" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3557" y="1"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3560" y="1"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3569" y="1"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="3572" y="1"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="7573" y="0"/>
-</item>
-<item historyLabel="Chat.java" index="0">
-<position info="not_deleted" x="5437" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="7573" y="0"/>
+<item historyLabel="AESCipher.java" index="0">
+<position info="not_deleted" x="965" y="0"/>
 </item>
 <item historyLabel="Test.java" index="2">
-<position info="not_deleted" x="422" y="0"/>
+<position info="not_deleted" x="497" y="0"/>
 </item>
-<item historyLabel="Chat.java" index="0">
+<item historyLabel="Test.java" index="2">
+<position info="not_deleted" x="209" y="0"/>
+</item>
+<item historyLabel="Test.java" index="2">
+<position info="not_deleted" x="229" y="0"/>
+</item>
+<item historyLabel="Test.java" index="2">
+<position info="not_deleted" x="274" y="0"/>
+</item>
+<item historyLabel="Test.java" index="2">
+<position info="not_deleted" x="266" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="0">
+<position info="not_deleted" x="5457" y="0"/>
+</item>
+<item historyLabel="CSec2012Prov.java" index="1">
+<position info="not_deleted" x="386" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="0">
+<position info="not_deleted" x="5457" y="0"/>
+</item>
+<item historyLabel="AES.java" index="3">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="0">
+<position info="not_deleted" x="4076" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="0">
+<position info="not_deleted" x="4019" y="0"/>
+</item>
+<item historyLabel="Test.java" index="4">
+<position info="not_deleted" x="266" y="0"/>
+</item>
+<item historyLabel="Chat.java" index="5">
 <position info="not_deleted" x="5437" y="0"/>
 </item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="7573" y="0"/>
+<item historyLabel="CSec2012Prov.java" index="6">
+<position info="not_deleted" x="386" y="0"/>
 </item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="1885" y="0"/>
+<item historyLabel="CSec2013Prov.java" index="7">
+<position info="not_deleted" x="149" y="0"/>
 </item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="2088" y="0"/>
+<item historyLabel="AES.java" index="8">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="2162" y="0"/>
+<item historyLabel="Chat.java" index="5">
+<position info="not_deleted" x="5437" y="0"/>
 </item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="2088" y="0"/>
+<item historyLabel="Test.java" index="4">
+<position info="not_deleted" x="266" y="0"/>
 </item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="2125" y="0"/>
+<item historyLabel="Chat.java" index="5">
+<position info="not_deleted" x="5437" y="0"/>
 </item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="2110" y="0"/>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="4967" y="0"/>
 </item>
-<item historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="7732" y="0"/>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="1208" y="0"/>
 </item>
-<item active="true" historyLabel="Crypto.java" index="1">
-<position info="not_deleted" x="7835" y="0"/>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="4946" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="4385" y="0"/>
+</item>
+<item historyLabel="Chat.java" index="5">
+<position info="not_deleted" x="5438" y="0"/>
+</item>
+<item historyLabel="Crypto.java" index="10">
+<position info="not_deleted" x="3" y="0"/>
+</item>
+<item historyLabel="Crypto.java" index="10">
+<position info="not_deleted" x="2142" y="11"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="4385" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="4538" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="4721" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="3861" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="2119" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="2067" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="9303" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="6457" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="887" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="8067" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="7443" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="7473" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="8167" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="8925" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="7338" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="8215" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="7703" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="7992" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="9219" y="0"/>
+</item>
+<item historyLabel="Chat.java" index="5">
+<position info="not_deleted" x="5438" y="0"/>
+</item>
+<item historyLabel="CSec2013Prov.java" index="11">
+<position info="not_deleted" x="149" y="0"/>
+</item>
+<item active="true" historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="9219" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -425,13 +434,6 @@
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
-<trimArea IMemento.internal.id="16384">
-<trimItem IMemento.internal.id="left"/>
-</trimArea>
-<trimArea IMemento.internal.id="131072">
-<trimItem IMemento.internal.id="right"/>
-<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@110b205"/>
-</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 <trimItem IMemento.internal.id="org.eclipse.mylyn.tasks.ui.trim.container"/>
@@ -440,7 +442,6 @@
 <trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
-<trimItem IMemento.internal.id="bottom"/>
 </trimArea>
 </trimLayout>
 </window>
