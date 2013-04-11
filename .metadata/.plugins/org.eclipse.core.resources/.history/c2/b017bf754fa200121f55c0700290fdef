@@ -36,10 +36,6 @@ public class AESCipher extends CipherSpi {
     private AES aes; //actual cipher
     private byte[] resultText; //where the result is stored
     
-    private Key k;
-    private AlgorithmParameterSpec p;
-    private SecureRandom ran;
-    
 
     protected void engineSetMode(String mode) throws NoSuchAlgorithmException {
     	if (mode.equals("CBC")) {
@@ -118,10 +114,6 @@ public class AESCipher extends CipherSpi {
     	/**
     	 * Implement me.
     	 */
-    	//store for resetting
-    	k = key;
-    	p = params;
-    	ran = random;
     	//reset all class variables
     	bufferOffset = 0;
     	iv = new byte[16];
@@ -301,19 +293,22 @@ public class AESCipher extends CipherSpi {
     	/**
     	 * Implement me.
     	 */
+    	//put all of the result in output? 
     	int blockSize = engineGetBlockSize();
     	//figure out how much input we have
     	int numBlocks = (bufferOffset + inputLen) / blockSize;
+        int result = numBlocks * blockSize;
+        if (result > output.length - outputOffset) { //if it doesn't fit into output array
+            throw new ShortBufferException();
+         }
         //if there is not an even block and no padding is specified, it's an error
         if (((bufferOffset + inputLen) / blockSize) > 0) {
         	if (MODE != Cipher.ENCRYPT_MODE || !do_pad) {
         		throw new IllegalBlockSizeException();
         	}
         }
-        if (MODE == Cipher.ENCRYPT_MODE) { //account for padding size
-        	if (numBlocks == 0 || (((bufferOffset + inputLen) % blockSize) == 0 && do_pad)) {
-        		numBlocks++;
-        	}
+        if (numBlocks == 0 || (((bufferOffset + inputLen) % blockSize) == 0 && do_pad)) {
+        	numBlocks++;
         }
         
         //concatenate buffer and input
@@ -323,7 +318,7 @@ public class AESCipher extends CipherSpi {
     	//copy from input
     	System.arraycopy(input, 0, all, bufferOffset, inputLen);
     	//add padding, if necessary
-    	if (do_pad && MODE == Cipher.ENCRYPT_MODE) {
+    	if (do_pad) {
     		int padLen = blockSize - ((bufferOffset + inputLen) % blockSize);
     		if (padLen == 0) {
     			padLen = blockSize; //there must always be padding
@@ -332,13 +327,10 @@ public class AESCipher extends CipherSpi {
     			all[(bufferOffset+inputLen)+i] = (byte) padLen;
     		}
     	}
-    	int result = all.length + resultText.length;
-        if (result > output.length - outputOffset) { //if it doesn't fit into output array
-            throw new ShortBufferException();
-         }
     	
     	//process each block
         byte[] block = new byte[blockSize];
+        int blockOffset = 0;
         int allOffset = 0;
         for (int i = 0; i < numBlocks; i++) {
         	//copy from 'all' array
@@ -390,35 +382,6 @@ public class AESCipher extends CipherSpi {
         		System.arraycopy(res, 0, temp, resultText.length, res.length);
         		resultText = temp;
         	}
-        }
-        System.out.println("HERE!!!!!!");
-        //check for valid padding, if necessary
-        if (MODE == Cipher.DECRYPT_MODE && do_pad) {
-        	//last byte should always be a padding byte with a value of the length of padding
-        	byte pad = resultText[resultText.length-1];
-        	resultText[resultText.length-1] = 0;
-        	System.out.println("Pad value:" + pad);
-        	for (int i = 2; i <= pad; i++) {
-        		System.out.println("Pad value:" + resultText[resultText.length-i]);
-        		if (resultText[resultText.length-i] != pad) {
-        			throw new BadPaddingException();
-        		}
-        		else { 
-        			resultText[resultText.length-i] = (byte) 0;
-        		}
-        	}
-        }
-        //copy result to output buffer
-        System.arraycopy(resultText, 0, output, outputOffset, resultText.length);
-        //call engineInit to reset internal state
-        try {
-			engineInit(MODE, k, p, ran);
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (InvalidAlgorithmParameterException e) {
-			e.printStackTrace();
-		}
-        return all.length;
     }
     
 }

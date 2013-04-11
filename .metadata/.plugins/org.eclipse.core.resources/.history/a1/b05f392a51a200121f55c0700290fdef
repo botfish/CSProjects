@@ -391,33 +391,20 @@ public class AESCipher extends CipherSpi {
         		resultText = temp;
         	}
         }
-        System.out.println("HERE!!!!!!");
         //check for valid padding, if necessary
         if (MODE == Cipher.DECRYPT_MODE && do_pad) {
         	//last byte should always be a padding byte with a value of the length of padding
         	byte pad = resultText[resultText.length-1];
-        	resultText[resultText.length-1] = 0;
-        	System.out.println("Pad value:" + pad);
         	for (int i = 2; i <= pad; i++) {
-        		System.out.println("Pad value:" + resultText[resultText.length-i]);
         		if (resultText[resultText.length-i] != pad) {
         			throw new BadPaddingException();
-        		}
-        		else { 
-        			resultText[resultText.length-i] = (byte) 0;
         		}
         	}
         }
         //copy result to output buffer
         System.arraycopy(resultText, 0, output, outputOffset, resultText.length);
         //call engineInit to reset internal state
-        try {
-			engineInit(MODE, k, p, ran);
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		} catch (InvalidAlgorithmParameterException e) {
-			e.printStackTrace();
-		}
+        engineInit(MODE, Key key, AlgorithmParameterSpec params, SecureRandom random);
         return all.length;
     }
     

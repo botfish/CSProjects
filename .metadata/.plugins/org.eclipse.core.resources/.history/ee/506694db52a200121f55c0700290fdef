@@ -54,7 +54,7 @@ public class Crypto {
 	private void buildEncrypt(String sets) {
 		try {
 			//create cipher
-			encrypt = Cipher.getInstance(sets, prov);
+			encrypt = Cipher.getInstance(sets);
 			//add key
 			encrypt.init(Cipher.ENCRYPT_MODE, aesKey);
 			//generate initial vector if server
@@ -81,7 +81,7 @@ public class Crypto {
 	private void buildDecrypt(String sets) {
 		try {
 			//create cipher
-			decrypt = Cipher.getInstance(sets, prov);
+			decrypt = Cipher.getInstance(sets);
 			//add key
 			decrypt.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(IV));
 		} catch (NoSuchAlgorithmException e) {
@@ -105,11 +105,6 @@ public class Crypto {
     		prov = new CSec2013Prov();
     		//insert the provider at position 1 (highest priority)
     		Security.insertProviderAt(prov, 1);
-    		
-    		Provider[] test = Security.getProviders();
-    		for (int i = 0; i < test.length; i++) {
-    			System.out.println(test[i].getName());
-    		}
     		
 			InputStream in = c.getInputStream();
 			OutputStream out = c.getOutputStream();
@@ -159,7 +154,6 @@ public class Crypto {
 		    buildEncrypt("AES/CBC/PKCS5Padding");
 		    buildDecrypt("AES/CBC/PKCS5Padding");
 		    
-		    System.out.println(encrypt.getProvider());
 		    System.out.println(aesKey.hashCode());
 		    System.out.println(encrypt.getIV().hashCode());
 		    System.out.println(decrypt.getIV().hashCode());
