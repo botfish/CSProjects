@@ -127,6 +127,7 @@ public class AESCipher extends CipherSpi {
     	iv = new byte[16];
     	prev = new byte[16];
     	buffer = new byte[32];
+    	resultText = new byte[1];
     	aes = null;
     	//set the mode
     	MODE = opmode;
@@ -158,8 +159,9 @@ public class AESCipher extends CipherSpi {
     		}
     		
     	}
-    	//if the key is not the right length, reject it
-    	if (key.getEncoded().length != 128 && key.getEncoded().length != 192 && key.getEncoded().length != 256) {
+    	//if the key is not the right length, reject it 
+    	//Note: These are in bytes, not bits
+    	if (key.getEncoded().length != 16 && key.getEncoded().length != 24 && key.getEncoded().length != 32) {
     		throw new InvalidKeyException();
     	}
     	
@@ -305,7 +307,9 @@ public class AESCipher extends CipherSpi {
     	//figure out how much input we have
     	int numBlocks = (bufferOffset + inputLen) / blockSize;
         //if there is not an even block and no padding is specified, it's an error
-        if (((bufferOffset + inputLen) / blockSize) > 0) {
+    	System.out.println(((bufferOffset + inputLen) % blockSize));
+    	System.out.println(do_pad);
+        if (((bufferOffset + inputLen) % blockSize) > 0) {
         	if (MODE != Cipher.ENCRYPT_MODE || !do_pad) {
         		throw new IllegalBlockSizeException();
         	}
@@ -328,7 +332,7 @@ public class AESCipher extends CipherSpi {
     		if (padLen == 0) {
     			padLen = blockSize; //there must always be padding
     		}
-    		for (int i = 1; i <= padLen; i++) {
+    		for (int i = 1; i < padLen; i++) {
     			all[(bufferOffset+inputLen)+i] = (byte) padLen;
     		}
     	}

@@ -55,7 +55,7 @@ public class Crypto {
 		try {
 			//create cipher
 			encrypt = Cipher.getInstance(sets, prov);
-			//add key
+			//add keys
 			encrypt.init(Cipher.ENCRYPT_MODE, aesKey);
 			//generate initial vector if server
 			if (IV == null) {
@@ -83,6 +83,7 @@ public class Crypto {
 			//create cipher
 			decrypt = Cipher.getInstance(sets, prov);
 			//add key
+			System.out.println(IV);
 			decrypt.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(IV));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -228,6 +229,7 @@ public class Crypto {
    		    //generate shared secrets (AES key and IV)
 		    System.out.println("Generating AES key...");
 		    aesKey = keyAgree.generateSecret("AES");
+		    System.out.println("Len3: " + aesKey.getEncoded().length);
 		    
 		    //generate Ciphers
 		    System.out.println("Constructing ciphers...");
