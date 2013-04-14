@@ -125,7 +125,7 @@ public class AESCipher extends CipherSpi {
     	//reset all class variables
     	bufferOffset = 0;
     	iv = new byte[16];
-    	prev = new byte[16];
+    	prev = iv;
     	buffer = new byte[32];
     	resultText = new byte[1];
     	aes = null;
@@ -303,12 +303,16 @@ public class AESCipher extends CipherSpi {
     	/**
     	 * Implement me.
     	 */
+    	System.out.println("Input: ");
+    	for (int i = 0; i < input.length; i++) {
+	    	System.out.print((input[i] & 0xFF) + " ");
+	    }
+	    System.out.println();
     	int blockSize = engineGetBlockSize();
     	//figure out how much input we have
     	int numBlocks = (bufferOffset + inputLen) / blockSize;
         //if there is not an even block and no padding is specified, it's an error
     	System.out.println(((bufferOffset + inputLen) % blockSize));
-    	System.out.println(do_pad);
         if (((bufferOffset + inputLen) % blockSize) > 0) {
         	if (MODE != Cipher.ENCRYPT_MODE || !do_pad) {
         		throw new IllegalBlockSizeException();
@@ -319,7 +323,7 @@ public class AESCipher extends CipherSpi {
         		numBlocks++;
         	}
         }
-        
+        System.out.println("NumBlocks: " + numBlocks);
         //concatenate buffer and input
         byte[] all = new byte[blockSize*numBlocks];
         //copy from buffer
@@ -332,7 +336,7 @@ public class AESCipher extends CipherSpi {
     		if (padLen == 0) {
     			padLen = blockSize; //there must always be padding
     		}
-    		for (int i = 1; i < padLen; i++) {
+    		for (int i = 0; i < padLen; i++) {
     			all[(bufferOffset+inputLen)+i] = (byte) padLen;
     		}
     	}
@@ -340,7 +344,6 @@ public class AESCipher extends CipherSpi {
         if (result > output.length - outputOffset) { //if it doesn't fit into output array
             throw new ShortBufferException();
          }
-    	
     	//process each block
         byte[] block = new byte[blockSize];
         int allOffset = 0;
@@ -351,22 +354,37 @@ public class AESCipher extends CipherSpi {
         	//if encryption, XOR with IV or ciphertext
         	if (MODE == Cipher.ENCRYPT_MODE) {
         		if (do_cbc) {
-        			if (prev == null) {
-        				for (int j = 0; j < block.length; j++) {
-        					block[j] = (byte) (block[j] ^ iv[j]);
-        				}
-        			}
-        			else {
-        				for (int j = 0; j < block.length; j++) {
-        					block[j] = (byte) (block[j] ^ prev[j]);
-        				}
+        			System.out.println("Prev: ");
+                	for (int j = 0; j < prev.length; j++) {
+            	    	System.out.print((prev[j] & 0xFF) + " ");
+            	    }
+            	    System.out.println();
+        			for (int j = 0; j < block.length; j++) {
+        				block[j] = (byte) (block[j] ^ prev[j]);
         			}
         		}
+        		System.out.println("block before encrypt: ");
+            	for (int j = 0; j < block.length; j++) {
+        	    	System.out.print((block[j] & 0xFF) + " ");
+        	    }
+        	    System.out.println();
         		//then encrypt and store the result
         		byte[] res = aes.encrypt(block);
-        		byte[] temp = new byte[res.length + resultText.length];
-        		System.arraycopy(resultText, 0, temp, 0,  resultText.length);
-        		System.arraycopy(res, 0, temp, resultText.length, res.length);
+        		System.out.println("res after encrypt: ");
+            	for (int j = 0; j < res.length; j++) {
+        	    	System.out.print((res[j] & 0xFF) + " ");
+        	    }
+        	    System.out.println();
+        		byte[] temp;
+        		if (resultText.length == 1) {
+        			temp = new byte[res.length];
+        			System.arraycopy(res, 0, temp, 0, res.length);
+        		}
+        		else {
+        			temp = new byte[res.length + resultText.length];
+        			System.arraycopy(resultText, 0, temp, 0,  resultText.length);
+        			System.arraycopy(res, 0, temp, resultText.length, res.length);
+        		}
         		resultText = temp;
         		//store ciphertext for chaining
         		prev = res;
@@ -374,46 +392,63 @@ public class AESCipher extends CipherSpi {
         	else if (MODE == Cipher.DECRYPT_MODE) {
         		//if decryption, decrypt
         		byte[] res = aes.decrypt(block);
+        		System.out.println("res after decrypt: ");
+            	for (int j = 0; j < res.length; j++) {
+        	    	System.out.print((res[j] & 0xFF) + " ");
+        	    }
+        	    System.out.println();
         		if (do_cbc) { 
         			//then with iv or prev to get plaintext
-        			if (prev == null) {
-        				for (int j = 0; j < block.length; j++) {
-        					block[j] = (byte) (block[j] ^ iv[j]);
-        				}
+        			System.out.println("IV:");
+        			for (int j = 0; j < res.length; j++) {
+        				System.out.print((iv[j] & 0xFF) + " ");
+        				res[j] = (byte) (res[j] ^ prev[j]);
         			}
-        			else {
-        				for (int j = 0; j < block.length; j++) {
-        					block[j] = (byte) (block[j] ^ prev[j]);
-        				}
-        			}
+        			System.out.println();
         			prev = block; //store last ciphertext for chaining
         		}
+        		System.out.println("res after cbc:");
+        	    for (int j = 0; j < res.length; j++) {
+        	    	System.out.print(res[j]& 0xFF);
+        	    }
+        	   System.out.println();
         		//store plaintext
-        		byte[] temp = new byte[res.length + resultText.length];
-        		System.arraycopy(resultText, 0, temp, 0,  resultText.length);
-        		System.arraycopy(res, 0, temp, resultText.length, res.length);
+        		byte[] temp;
+        		if (resultText.length == 1) {
+        			temp = new byte[res.length];
+        			System.arraycopy(res, 0, temp, 0, res.length);
+        		}
+        		else {
+        			temp = new byte[res.length + resultText.length];
+        			System.arraycopy(resultText, 0, temp, 0,  resultText.length);
+        			System.arraycopy(res, 0, temp, resultText.length, res.length);
+        		}
         		resultText = temp;
         	}
         }
-        System.out.println("HERE!!!!!!");
         //check for valid padding, if necessary
         if (MODE == Cipher.DECRYPT_MODE && do_pad) {
+        	System.out.println("Plaintext:");
+    	    for (int j = 0; j < resultText.length; j++) {
+    	    	System.out.print(resultText[j]& 0xFF);
+    	    }
+    	   System.out.println();
         	//last byte should always be a padding byte with a value of the length of padding
         	byte pad = resultText[resultText.length-1];
         	resultText[resultText.length-1] = 0;
-        	System.out.println("Pad value:" + pad);
+        	System.out.println("First pad value:" + pad);
         	for (int i = 2; i <= pad; i++) {
         		System.out.println("Pad value:" + resultText[resultText.length-i]);
         		if (resultText[resultText.length-i] != pad) {
         			throw new BadPaddingException();
         		}
-        		else { 
-        			resultText[resultText.length-i] = (byte) 0;
-        		}
         	}
         }
         //copy result to output buffer
-        System.arraycopy(resultText, 0, output, outputOffset, resultText.length);
+        int padlen = (resultText[resultText.length-1] & 0xff);
+        System.out.println("Padlength: " + padlen);
+        System.arraycopy(resultText, 0, output, outputOffset,
+        		resultText.length);
         //call engineInit to reset internal state
         try {
 			engineInit(MODE, k, p, ran);

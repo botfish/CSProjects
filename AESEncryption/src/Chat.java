@@ -173,8 +173,13 @@ class ChatSender implements Runnable {
 		} catch (BadPaddingException e) {
 			e.printStackTrace();
 		}
+	    System.out.println("Ciphertext:");
+	    for (int i = 0; i < ciphertext.length; i++) {
+	    	System.out.print((ciphertext[i] & 0xFF) + " ");
+	    }
+	    System.out.println();
 	    //send the message
-	    conn.println(ciphertext);
+	    conn.write(ciphertext, 0, ciphertext.length);
 	}
     }
 
@@ -197,9 +202,16 @@ class ChatReceiver implements Runnable {
 	    try {
 		int len = conn.read(b); //encrypted message
 		//decrypt the message
-		byte[] plain = new byte[1024];
+		byte[] plain = new byte[len];
+		byte[] arr = new byte[len];
+		System.arraycopy(b, 0, arr, 0, len);
+		System.out.println("Ciphertext2: ");
+	    for (int i = 0; i < arr.length; i++) {
+	    	System.out.print(arr[i] & 0xFF);
+	    }
+	    System.out.println();
 		try {
-			plain = decrypt.doFinal(b);
+			plain = decrypt.doFinal(arr);
 		} catch (IllegalBlockSizeException e) {
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
