@@ -45,6 +45,7 @@ public class Crypto {
 	private IvParameterSpec spec;
 	private Cipher encrypt; //cipher for encryption
 	private Cipher decrypt; //cipher for decryption
+	private boolean do_cbc;
 	
 	/*
 	 * Creates and returns the cipher for encryption.
@@ -55,26 +56,33 @@ public class Crypto {
 		try {
 			//create cipher
 			encrypt = Cipher.getInstance(sets, prov);
-			//generate initial vector if server
-			if (IV == null) {
-				System.out.println("Generating initial vector...");
-				IV = new byte[16];
-				new SecureRandom().nextBytes(IV);
-				spec = new IvParameterSpec(IV);
+			if (sets.contains("CBC")) { 
+				do_cbc = true;
+				//generate initial vector if server
+				if (IV == null) {
+					System.out.println("Generating initial vector...");
+					IV = new byte[16];
+					new SecureRandom().nextBytes(IV);
+					spec = new IvParameterSpec(IV);
+				}
+				else {
+					spec = new IvParameterSpec(IV);
+				}
+				//add keys
+				encrypt.init(Cipher.ENCRYPT_MODE, aesKey, spec);
 			}
-			else {
-				spec = new IvParameterSpec(IV);
+			else if (sets.contains("ECB")) {
+				do_cbc = false;
+				spec = null;
+				encrypt.init(Cipher.ENCRYPT_MODE, aesKey, spec);
 			}
-			//add keys
-			encrypt.init(Cipher.ENCRYPT_MODE, aesKey, spec);
-			byte[] test = encrypt.getIV();
-			System.out.println(test.length);
-			for (int i = 0; i< test.length; i++) {
-		    	System.out.print((test[i] & 0xFF) + " ");
-		    }
-		    System.out.println();
+			else { 
+				throw new NoSuchAlgorithmException();
+			}
+
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
+			System.exit(0);
 		} catch (NoSuchPaddingException e) {
 			e.printStackTrace();
 		} catch (InvalidKeyException e) {
@@ -94,10 +102,21 @@ public class Crypto {
 			//create cipher
 			decrypt = Cipher.getInstance(sets, prov);
 			//add key
-			System.out.println(IV);
-			decrypt.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(IV));
+			if (sets.contains("CBC")) { 
+				do_cbc = true;
+				decrypt.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(IV));
+			}
+			else if (sets.contains("ECB")) {
+				do_cbc = false;
+				spec = null;
+				decrypt.init(Cipher.DECRYPT_MODE, aesKey, spec);
+			}
+			else {
+				throw new NoSuchAlgorithmException();
+			}
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
+			System.exit(0);
 		} catch (NoSuchPaddingException e) {
 			e.printStackTrace();
 		} catch (InvalidKeyException e) {
@@ -166,15 +185,23 @@ public class Crypto {
 		    //generate Ciphers
 		    System.out.println("Constructing ciphers...");
 		    //get IV from server
-		    IV = new byte[16];
-		    in.read(IV);
+		    try {
+		    	IV = new byte[16];
+		    	in.read(IV);
+		    	if (IV[0] == ((byte)-1)) {
+		    		do_cbc = false;
+		    	}
+		    }
+		    catch (Exception e) {
+		    	do_cbc = false;
+		    }
 
-		    buildEncrypt("AES/CBC/PKCS5Padding");
-		    buildDecrypt("AES/CBC/PKCS5Padding");
+		    //buildEncrypt("AES/CBC/PKCS5Padding");
+		    //buildDecrypt("AES/CBC/PKCS5Padding");
+		    buildEncrypt("AES/ECB/PKCS5Padding");
+		    buildDecrypt("AES/ECB/PKCS5Padding");
 		    
-		    System.out.println(encrypt.getProvider());
-		    System.out.println(encrypt.getIV().hashCode());
-		    System.out.println(decrypt.getIV().hashCode());
+		    System.out.println("Using cipher provider: " + encrypt.getProvider());
 		
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -243,14 +270,20 @@ public class Crypto {
 		    
 		    //generate Ciphers
 		    System.out.println("Constructing ciphers...");
-		    buildEncrypt("AES/CBC/PKCS5Padding");
-		    buildDecrypt("AES/CBC/PKCS5Padding");
+		    //buildEncrypt("AES/CBC/PKCS5Padding");
+		    //buildDecrypt("AES/CBC/PKCS5Padding");
+		    buildEncrypt("AES/ECB/PKCS5Padding");
+		    buildDecrypt("AES/ECB/PKCS5Padding");
 
 		    //send IV to client
-		    out.write(IV);
+		    if (do_cbc) {
+		    	out.write(IV);
+		    }
+		    else {
+		    	out.write((byte)-1);
+		    }
 		    
-		    System.out.println(encrypt.getIV().hashCode());
-		    System.out.println(decrypt.getIV().hashCode());
+		    System.out.println("Using cipher provider: " + encrypt.getProvider());
    			
     	} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();

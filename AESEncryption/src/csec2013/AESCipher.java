@@ -151,6 +151,7 @@ public class AESCipher extends CipherSpi {
     				throw new InvalidAlgorithmParameterException();
     			}
     			iv = ((IvParameterSpec)params).getIV();
+    			prev = iv;
     		}
     		
     	}
@@ -343,6 +344,11 @@ public class AESCipher extends CipherSpi {
     			all[(bufferOffset+inputLen)+i] = (byte) padLen;
     		}
     	}
+    	System.out.println("Input after padding: ");
+    	for (int i = 0; i < all.length; i++) {
+	    	System.out.print((all[i] & 0xFF) + " ");
+	    }
+	    System.out.println();
     	int result = all.length + resultText.length;
         if (result > output.length - outputOffset) { //if it doesn't fit into output array
             throw new ShortBufferException();
@@ -355,11 +361,15 @@ public class AESCipher extends CipherSpi {
         	//copy from 'all' array
         	System.out.println(allOffset);
         	System.out.println(all[allOffset]);
-        	System.arraycopy(all, allOffset, block, 0,  blockSize-1);
+        	System.arraycopy(all, allOffset, block, 0,  blockSize);
         	allOffset += blockSize;
         	//if encryption, XOR with IV or ciphertext
         	if (MODE == Cipher.ENCRYPT_MODE) {
-        		System.out.println("Prev: ");
+        		System.out.println("IV:");
+    			for (int j = 0; j < iv.length; j++) {
+    				System.out.print((iv[j] & 0xFF) + " ");
+    			}
+    			System.out.println();
         		if (do_cbc) {
         			System.out.println("Prev: ");
                 	for (int j = 0; j < prev.length; j++) {
@@ -370,7 +380,7 @@ public class AESCipher extends CipherSpi {
         				block[j] = (byte) (block[j] ^ prev[j]);
         			}
         		}
-        		System.out.println("block before encrypt: ");
+        		System.out.println("block before encrypt/after cbc: ");
             	for (int j = 0; j < block.length; j++) {
         	    	System.out.print((block[j] & 0xFF) + " ");
         	    }
@@ -398,6 +408,11 @@ public class AESCipher extends CipherSpi {
         	}
         	else if (MODE == Cipher.DECRYPT_MODE) {
         		//if decryption, decrypt
+        		System.out.println("Extra block check:");
+    			for (int j = 0; j < block.length; j++) {
+    				System.out.print((block[j] & 0xFF) + " ");
+    			}
+    			System.out.println();
         		byte[] res = aes.decrypt(block);
         		System.out.println("Block " + i + " res after decrypt: ");
             	for (int j = 0; j < res.length; j++) {
@@ -412,7 +427,8 @@ public class AESCipher extends CipherSpi {
         				res[j] = (byte) (res[j] ^ prev[j]);
         			}
         			System.out.println();
-        			prev = block; //store last ciphertext for chaining
+        			prev = new byte[block.length]; //store last ciphertext for chaining
+        			System.arraycopy(block, 0, prev, 0, block.length);
         		}
         		System.out.println("Block " + i + " res after cbc:");
         	    for (int j = 0; j < res.length; j++) {
@@ -455,9 +471,9 @@ public class AESCipher extends CipherSpi {
     		System.arraycopy(resultText, 0, temp, 0,  resultText.length-padlen);
     		resultText = temp;
         }
-        System.out.println("reultText:");
+        System.out.println("resultText:");
 	    for (int j = 0; j < resultText.length; j++) {
-	    	System.out.print(resultText[j] & 0xFF);
+	    	System.out.print((resultText[j] & 0xFF) + " ");
 	    }
 	   System.out.println();
         //copy result to output buffer
