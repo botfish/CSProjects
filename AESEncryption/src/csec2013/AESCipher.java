@@ -423,7 +423,6 @@ public class AESCipher extends CipherSpi {
 			e.printStackTrace();
 		}
         return all.length;
-        //return resultText.length;
     }
     
 }
