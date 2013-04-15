@@ -141,7 +141,7 @@ public class AESCipher extends CipherSpi {
     		if (params == null && MODE == Cipher.DECRYPT_MODE) { //must have an IV for decryption
     			throw new InvalidKeyException();
     		}
-    		else if (params == null && MODE == Cipher.ENCRYPT_MODE) {
+    		else if (params == null && MODE == Cipher.ENCRYPT_MODE) {s
     			//then generate IV from randomness
     			random.nextBytes(iv);   			
     		}

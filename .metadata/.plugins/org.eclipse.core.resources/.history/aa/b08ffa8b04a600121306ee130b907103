@@ -137,6 +137,11 @@ public class Crypto {
     		//insert the provider at position 1 (highest priority)
     		Security.insertProviderAt(prov, 1);
     		
+    		Provider[] test = Security.getProviders();
+    		for (int i = 0; i < test.length; i++) {
+    			System.out.println(test[i].getName());
+    		}
+    		
 			InputStream in = c.getInputStream();
 			OutputStream out = c.getOutputStream();
 			//get encoded parameters from server
