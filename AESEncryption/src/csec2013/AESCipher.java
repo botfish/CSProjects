@@ -27,7 +27,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AESCipher extends CipherSpi {
     private byte[] iv = new byte[16]; //initial vector
-    private byte[] prev = new byte[16]; //ciphertext of previous block
+    private byte[] prev = iv; //ciphertext of previous block
     private boolean do_pad;
     private boolean do_cbc;
     private byte[] buffer = new byte[32]; //buffer for storing what is read in
@@ -124,7 +124,7 @@ public class AESCipher extends CipherSpi {
     	ran = random;
     	//reset all class variables
     	bufferOffset = 0;
-    	iv = new byte[16];
+    	//iv = new byte[16];
     	prev = iv;
     	buffer = new byte[32];
     	resultText = new byte[1];
@@ -142,6 +142,7 @@ public class AESCipher extends CipherSpi {
     			throw new InvalidKeyException();
     		}
     		else if (params == null && MODE == Cipher.ENCRYPT_MODE) {
+    			System.out.println("HERES " + params);
     			//then generate IV from randomness
     			random.nextBytes(iv);   			
     		}
@@ -312,20 +313,22 @@ public class AESCipher extends CipherSpi {
     	//figure out how much input we have
     	int numBlocks = (bufferOffset + inputLen) / blockSize;
         //if there is not an even block and no padding is specified, it's an error
-    	System.out.println(((bufferOffset + inputLen) % blockSize));
+    	System.out.println("Overblock: " + ((bufferOffset + inputLen) % blockSize));
         if (((bufferOffset + inputLen) % blockSize) > 0) {
         	if (MODE != Cipher.ENCRYPT_MODE || !do_pad) {
         		throw new IllegalBlockSizeException();
         	}
-        }
-        if (MODE == Cipher.ENCRYPT_MODE) { //account for padding size
-        	if (numBlocks == 0 || (((bufferOffset + inputLen) % blockSize) == 0 && do_pad)) {
-        		numBlocks++;
+        	else if (MODE == Cipher.ENCRYPT_MODE) { //account for padding size
+        		if (numBlocks == 0 || (((bufferOffset + inputLen) % blockSize) >= 0 && do_pad)) {
+        			numBlocks++;
+        		}
         	}
         }
         System.out.println("NumBlocks: " + numBlocks);
         //concatenate buffer and input
         byte[] all = new byte[blockSize*numBlocks];
+        System.out.println("total len: " + all.length);
+        System.out.println("Bufferlen: " + bufferOffset + " inpute: "+ inputLen);
         //copy from buffer
     	System.arraycopy(buffer, 0, all, 0,  bufferOffset);
     	//copy from input
@@ -348,11 +351,15 @@ public class AESCipher extends CipherSpi {
         byte[] block = new byte[blockSize];
         int allOffset = 0;
         for (int i = 0; i < numBlocks; i++) {
+        	System.out.println("Now processing block "+i+" of "+numBlocks);
         	//copy from 'all' array
-        	System.arraycopy(all, allOffset, block, 0,  blockSize);
+        	System.out.println(allOffset);
+        	System.out.println(all[allOffset]);
+        	System.arraycopy(all, allOffset, block, 0,  blockSize-1);
         	allOffset += blockSize;
         	//if encryption, XOR with IV or ciphertext
         	if (MODE == Cipher.ENCRYPT_MODE) {
+        		System.out.println("Prev: ");
         		if (do_cbc) {
         			System.out.println("Prev: ");
                 	for (int j = 0; j < prev.length; j++) {
@@ -392,24 +399,24 @@ public class AESCipher extends CipherSpi {
         	else if (MODE == Cipher.DECRYPT_MODE) {
         		//if decryption, decrypt
         		byte[] res = aes.decrypt(block);
-        		System.out.println("res after decrypt: ");
+        		System.out.println("Block " + i + " res after decrypt: ");
             	for (int j = 0; j < res.length; j++) {
         	    	System.out.print((res[j] & 0xFF) + " ");
         	    }
         	    System.out.println();
         		if (do_cbc) { 
         			//then with iv or prev to get plaintext
-        			System.out.println("IV:");
+        			System.out.println("Prev:");
         			for (int j = 0; j < res.length; j++) {
-        				System.out.print((iv[j] & 0xFF) + " ");
+        				System.out.print((prev[j] & 0xFF) + " ");
         				res[j] = (byte) (res[j] ^ prev[j]);
         			}
         			System.out.println();
         			prev = block; //store last ciphertext for chaining
         		}
-        		System.out.println("res after cbc:");
+        		System.out.println("Block " + i + " res after cbc:");
         	    for (int j = 0; j < res.length; j++) {
-        	    	System.out.print(res[j]& 0xFF);
+        	    	System.out.print((res[j ]& 0xFF) + " ");
         	    }
         	   System.out.println();
         		//store plaintext
@@ -430,23 +437,30 @@ public class AESCipher extends CipherSpi {
         if (MODE == Cipher.DECRYPT_MODE && do_pad) {
         	System.out.println("Plaintext:");
     	    for (int j = 0; j < resultText.length; j++) {
-    	    	System.out.print(resultText[j]& 0xFF);
+    	    	System.out.print((resultText[j] & 0xFF) + " ");
     	    }
     	   System.out.println();
         	//last byte should always be a padding byte with a value of the length of padding
         	byte pad = resultText[resultText.length-1];
-        	resultText[resultText.length-1] = 0;
         	System.out.println("First pad value:" + pad);
-        	for (int i = 2; i <= pad; i++) {
+        	for (int i = 2; i <= (int)(pad & 0xFF); i++) {
         		System.out.println("Pad value:" + resultText[resultText.length-i]);
         		if (resultText[resultText.length-i] != pad) {
         			throw new BadPaddingException();
         		}
         	}
+            int padlen = (resultText[resultText.length-1] & 0xff);
+            System.out.println("Padlength: " + padlen);
+            byte[] temp = new byte[resultText.length-padlen];
+    		System.arraycopy(resultText, 0, temp, 0,  resultText.length-padlen);
+    		resultText = temp;
         }
+        System.out.println("reultText:");
+	    for (int j = 0; j < resultText.length; j++) {
+	    	System.out.print(resultText[j] & 0xFF);
+	    }
+	   System.out.println();
         //copy result to output buffer
-        int padlen = (resultText[resultText.length-1] & 0xff);
-        System.out.println("Padlength: " + padlen);
         System.arraycopy(resultText, 0, output, outputOffset,
         		resultText.length);
         //call engineInit to reset internal state
@@ -458,6 +472,7 @@ public class AESCipher extends CipherSpi {
 			e.printStackTrace();
 		}
         return all.length;
+        //return resultText.length;
     }
     
 }

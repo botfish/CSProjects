@@ -55,8 +55,6 @@ public class Crypto {
 		try {
 			//create cipher
 			encrypt = Cipher.getInstance(sets, prov);
-			//add keys
-			encrypt.init(Cipher.ENCRYPT_MODE, aesKey);
 			//generate initial vector if server
 			if (IV == null) {
 				System.out.println("Generating initial vector...");
@@ -64,11 +62,24 @@ public class Crypto {
 				new SecureRandom().nextBytes(IV);
 				spec = new IvParameterSpec(IV);
 			}
+			else {
+				spec = new IvParameterSpec(IV);
+			}
+			//add keys
+			encrypt.init(Cipher.ENCRYPT_MODE, aesKey, spec);
+			byte[] test = encrypt.getIV();
+			System.out.println(test.length);
+			for (int i = 0; i< test.length; i++) {
+		    	System.out.print((test[i] & 0xFF) + " ");
+		    }
+		    System.out.println();
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
 			e.printStackTrace();
 		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (InvalidAlgorithmParameterException e) {
 			e.printStackTrace();
 		} 
 	}
@@ -157,11 +168,11 @@ public class Crypto {
 		    //get IV from server
 		    IV = new byte[16];
 		    in.read(IV);
+
 		    buildEncrypt("AES/CBC/PKCS5Padding");
 		    buildDecrypt("AES/CBC/PKCS5Padding");
 		    
 		    System.out.println(encrypt.getProvider());
-		    System.out.println(aesKey.hashCode());
 		    System.out.println(encrypt.getIV().hashCode());
 		    System.out.println(decrypt.getIV().hashCode());
 		
@@ -191,11 +202,11 @@ public class Crypto {
     		//insert the provider at position 1 (highest priority)
     		Security.insertProviderAt(prov, 1);
     		//generate the generator
-    		System.out.println("Generating inital parameters...");
+    		System.out.println("Generating initial parameters...");
     		AlgorithmParameterGenerator gen = AlgorithmParameterGenerator.getInstance("DH");
     		//set the size
     		gen.init(1024);
-    		//generate the paramenters for Diffie-Hellman
+    		//generate the parameters for Diffie-Hellman
    			params = gen.generateParameters();
     		//send the encoded parameters
     		System.out.println("Sending initial parameters...");
@@ -229,16 +240,15 @@ public class Crypto {
    		    //generate shared secrets (AES key and IV)
 		    System.out.println("Generating AES key...");
 		    aesKey = keyAgree.generateSecret("AES");
-		    System.out.println("Len3: " + aesKey.getEncoded().length);
 		    
 		    //generate Ciphers
 		    System.out.println("Constructing ciphers...");
 		    buildEncrypt("AES/CBC/PKCS5Padding");
 		    buildDecrypt("AES/CBC/PKCS5Padding");
+
 		    //send IV to client
 		    out.write(IV);
 		    
-		    System.out.println(aesKey.hashCode());
 		    System.out.println(encrypt.getIV().hashCode());
 		    System.out.println(decrypt.getIV().hashCode());
    			
