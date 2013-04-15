@@ -6,7 +6,7 @@ default: classes
 classes: provider protocol
 
 provider:
-	cd csec2011; javac *.java
+	cd csec2012; javac *.java
 
 protocol:
 	javac *.java

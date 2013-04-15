@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="17" version="2.0">
+<workbench progressCount="24" version="2.0">
 <workbenchAdvisor/>
 <window height="889" maximized="true" width="1313" x="94" y="98">
 <fastViewData fastViewLocation="1024"/>
@@ -8,17 +8,18 @@
 </perspectiveBar>
 <coolbarLayout>
 <coolItem id="group.file" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="132" y="30"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="136" y="22"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="120" y="30"/>
-<coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="76" y="30"/>
-<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="76" y="30"/>
-<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="124" y="30"/>
+<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="100" y="22"/>
+<coolItem id="org.eclipse.jdt.ui.JavaElementCreationActionSet" itemType="typeToolBarContribution" x="62" y="22"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="106" y="22"/>
+<coolItem id="org.eclipse.ui.edit.text.actionSet.presentation" itemType="typeToolBarContribution" x="120" y="22"/>
 <coolItem id="org.eclipse.wst.xml.ui.perspective.NewFileToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="org.eclipse.wst.xml.ui.design.DesignToolBar" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
-<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="184" y="30"/>
+<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="152" y="22"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.DefaultTextEditor" itemType="typePlaceholder" x="-1" y="-1"/>
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -31,44 +32,24 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
-<part id="2"/>
-<part id="3"/>
-<part id="4"/>
-<part id="5"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" partName="Test.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/Test.java" title="Test.java" tooltip="AESEncryption/src/Test.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/Test.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="266" selectionTopPixel="0"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSec2012Prov.java" partName="CSec2012Prov.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/OTProtocol/src/csec2012/CSec2012Prov.java" title="CSec2012Prov.java" tooltip="OTProtocol/src/csec2012/CSec2012Prov.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OTProtocol/src/csec2012/CSec2012Prov.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AESCipher.java" partName="AESCipher.java" path="/home/elizabeth/Desktop/CSProjects/AESEncryption/src/csec2013/AESCipher.java" title="AESCipher.java" tooltip="AESEncryption/src/csec2013/AESCipher.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/csec2013/AESCipher.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="10538" selectionTopPixel="5106"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Chat.java" partName="Chat.java" path="/home/elizabeth/Desktop/CSProjects/AESEncryption/src/Chat.java" title="Chat.java" tooltip="AESEncryption/src/Chat.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/Chat.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5438" selectionTopPixel="2324"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSec2013Prov.java" partName="CSec2013Prov.java" path="/home/elizabeth/Desktop/CSProjects/AESEncryption/src/csec2013/CSec2013Prov.java" title="CSec2013Prov.java" tooltip="AESEncryption/src/csec2013/CSec2013Prov.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/csec2013/CSec2013Prov.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="468" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AES.java" partName="AES.java" path="/home/elizabeth/Desktop/CSProjects/AESEncryption/src/csec2013/AES.java" title="AES.java" tooltip="AESEncryption/src/csec2013/AES.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/csec2013/AES.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="2285"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Crypto.java" partName="Crypto.java" path="/home/elizabeth/Desktop/CSProjects/AESEncryption/src/Crypto.java" title="Crypto.java" tooltip="AESEncryption/src/Crypto.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/Crypto.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="7883" selectionTopPixel="3131"/>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Alice.java" partName="Alice.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/OTProtocol/src/Alice.java" title="Alice.java" tooltip="OTProtocol/src/Alice.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OTProtocol/src/Alice.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="1996"/>
 </editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings (15 items)"/>
+<category IMemento.internal.id="Warnings (14 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -88,7 +69,6 @@
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
-<child filterId="org.eclipse.pde.ui.ExternalPluginLibrariesFilter1" isEnabled="true"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.ClosedProjectsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.NonSharedProjectsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.NonJavaElementFilter" isEnabled="false"/>
@@ -104,8 +84,9 @@
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.NonPublicFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer_patternFilterId_.*" isEnabled="true"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.EmptyLibraryContainerFilter" isEnabled="true"/>
-<child filterId="org.eclipse.pde.ui.BinaryProjectFilter1" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.SyntheticMembersFilter" isEnabled="true"/>
+<child filterId="org.eclipse.mylyn.java.ui.MembersFilter" isEnabled="false"/>
+<child filterId="org.eclipse.m2e.MavenModuleFilter" isEnabled="false"/>
 </xmlDefinedFilters>
 </customFilters>
 </viewState>
@@ -116,7 +97,7 @@
 <view id="org.eclipse.jdt.ui.SourceView" partName="Declaration"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.PackageExplorer" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -134,6 +115,11 @@
 <alwaysOnActionSet id="org.eclipse.debug.ui.breakpointActionSet"/>
 <alwaysOnActionSet id="org.eclipse.jdt.debug.ui.JDTDebugActionSet"/>
 <alwaysOnActionSet id="org.eclipse.jdt.junit.JUnitActionSet"/>
+<alwaysOnActionSet id="org.eclipse.egit.ui.navigation"/>
+<alwaysOnActionSet id="org.eclipse.mylyn.context.ui.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.mylyn.doc.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.mylyn.tasks.ui.navigation"/>
+<alwaysOnActionSet id="org.eclipse.wb.core.ui.actionset"/>
 <show_view_action id="org.eclipse.jdt.ui.PackageExplorer"/>
 <show_view_action id="org.eclipse.jdt.ui.TypeHierarchy"/>
 <show_view_action id="org.eclipse.jdt.ui.SourceView"/>
@@ -253,31 +239,13 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/AESCipher.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Crypto.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Chat.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Test.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/csec2013/AESCipher.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/csec2012/CSec2011Prov.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/csec2012/CSec2012Prov.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/Alice.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/OTProtocol/src/Makefile"/>
 </editors>
-<item historyLabel="AESCipher.java" index="1">
-<position info="not_deleted" x="3861" y="0"/>
-</item>
-<item historyLabel="AESCipher.java" index="1">
-<position info="not_deleted" x="2119" y="0"/>
-</item>
-<item historyLabel="AESCipher.java" index="1">
-<position info="not_deleted" x="2067" y="0"/>
-</item>
-<item historyLabel="AESCipher.java" index="1">
-<position info="not_deleted" x="9303" y="0"/>
-</item>
-<item historyLabel="AESCipher.java" index="1">
-<position info="not_deleted" x="6457" y="0"/>
-</item>
-<item historyLabel="AESCipher.java" index="1">
-<position info="not_deleted" x="887" y="0"/>
-</item>
-<item historyLabel="AESCipher.java" index="1">
-<position info="not_deleted" x="8067" y="0"/>
-</item>
-<item historyLabel="AESCipher.java" index="1">
-<position info="not_deleted" x="7443" y="0"/>
-</item>
 <item historyLabel="AESCipher.java" index="1">
 <position/>
 </item>
@@ -401,8 +369,32 @@
 <item historyLabel="AESCipher.java" index="5">
 <position info="not_deleted" x="4083" y="0"/>
 </item>
-<item active="true" historyLabel="AESCipher.java" index="5">
-<position info="not_deleted" x="10584" y="0"/>
+<item historyLabel="AESCipher.java" index="5">
+<position info="not_deleted" x="10538" y="0"/>
+</item>
+<item historyLabel="Test.java" index="8">
+<position info="not_deleted" x="266" y="0"/>
+</item>
+<item historyLabel="AESCipher.java" index="9">
+<position info="not_deleted" x="14838" y="0"/>
+</item>
+<item historyLabel="Test.java" index="8">
+<position info="not_deleted" x="266" y="0"/>
+</item>
+<item historyLabel="CSec2011Prov.java" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="CSec2012Prov.java" index="11">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="12">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Makefile" index="13">
+<position info="not_deleted" x="129" y="0"/>
+</item>
+<item active="true" historyLabel="Alice.java" index="12">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -411,6 +403,7 @@
 <actionBarAdvisor/>
 <trimLayout>
 <trimArea IMemento.internal.id="128">
+<trimItem IMemento.internal.id="org.eclipse.mylyn.tasks.ui.trim.container"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 </trimArea>
 <trimArea IMemento.internal.id="1024">
@@ -421,6 +414,18 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="Makefile" tooltip="OTProtocol/src/Makefile">
+<persistable path="/OTProtocol/src/Makefile"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Alice.java" tooltip="OTProtocol/src/Alice.java">
+<persistable path="/OTProtocol/src/Alice.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="CSec2011Prov.java" tooltip="OTProtocol/src/csec2012/CSec2011Prov.java">
+<persistable path="/OTProtocol/src/csec2012/CSec2011Prov.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AESCipher.java" tooltip="AESEncryption/src/csec2013/AESCipher.java">
+<persistable path="/AESEncryption/src/csec2013/AESCipher.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Crypto.java" tooltip="AESEncryption/src/Crypto.java">
 <persistable path="/AESEncryption/src/Crypto.java"/>
 </file>
@@ -453,15 +458,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SubBytes.java" tooltip="AESEncryption/src/SubBytes.java">
 <persistable path="/AESEncryption/src/SubBytes.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="byteMultiply.java" tooltip="AESEncryption/src/byteMultiply.java">
-<persistable path="/AESEncryption/src/byteMultiply.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AES.java" tooltip="AESEncryption/src/AES.java">
-<persistable path="/AESEncryption/src/AES.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="example.java" tooltip="AESEncryption/src/example.java">
-<persistable path="/AESEncryption/src/example.java"/>
 </file>
 </mruList>
 </workbench>
