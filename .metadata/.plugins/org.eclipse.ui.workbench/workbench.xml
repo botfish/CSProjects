@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="24" version="2.0">
+<workbench progressCount="31" version="2.0">
 <workbenchAdvisor/>
 <window height="889" maximized="true" width="1313" x="94" y="98">
 <fastViewData fastViewLocation="1024"/>
@@ -32,6 +32,7 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
+<part id="2"/>
 </presentation>
 </folder>
 </info>
@@ -40,16 +41,20 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OTProtocol/src/csec2012/CSec2012Prov.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Alice.java" partName="Alice.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/OTProtocol/src/Alice.java" title="Alice.java" tooltip="OTProtocol/src/Alice.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Alice.java" partName="Alice.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/OTProtocol/src/Alice.java" title="Alice.java" tooltip="OTProtocol/src/Alice.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OTProtocol/src/Alice.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="1996"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Crypto.java" partName="Crypto.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/AESEncryption/src/Crypto.java" title="Crypto.java" tooltip="AESEncryption/src/Crypto.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/AESEncryption/src/Crypto.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="46" selectionOffset="5583" selectionTopPixel="673"/>
 </editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings (14 items)"/>
+<category IMemento.internal.id="Warnings (25 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -97,7 +102,7 @@
 <view id="org.eclipse.jdt.ui.SourceView" partName="Declaration"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 </views>
-<perspectives activePart="org.eclipse.jdt.ui.PackageExplorer" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
+<perspectives activePart="org.eclipse.jdt.ui.CompilationUnitEditor" activePerspective="org.eclipse.jdt.ui.JavaPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="org.eclipse.jdt.internal.ui.JavaPerspectiveFactory" id="org.eclipse.jdt.ui.JavaPerspective" label="Java"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -245,10 +250,8 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/csec2012/CSec2012Prov.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/Alice.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/OTProtocol/src/Makefile"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Crypto.java"/>
 </editors>
-<item historyLabel="AESCipher.java" index="1">
-<position/>
-</item>
 <item historyLabel="AESCipher.java" index="1">
 <position info="not_deleted" x="7473" y="0"/>
 </item>
@@ -393,8 +396,11 @@
 <item historyLabel="Makefile" index="13">
 <position info="not_deleted" x="129" y="0"/>
 </item>
-<item active="true" historyLabel="Alice.java" index="12">
+<item historyLabel="Alice.java" index="12">
 <position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="Crypto.java" index="14">
+<position info="not_deleted" x="3" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -414,6 +420,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Crypto.java" tooltip="AESEncryption/src/Crypto.java">
+<persistable path="/AESEncryption/src/Crypto.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" name="Makefile" tooltip="OTProtocol/src/Makefile">
 <persistable path="/OTProtocol/src/Makefile"/>
 </file>
@@ -425,9 +434,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AESCipher.java" tooltip="AESEncryption/src/csec2013/AESCipher.java">
 <persistable path="/AESEncryption/src/csec2013/AESCipher.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Crypto.java" tooltip="AESEncryption/src/Crypto.java">
-<persistable path="/AESEncryption/src/Crypto.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="AES.java" tooltip="AESEncryption/src/csec2013/AES.java">
 <persistable path="/AESEncryption/src/csec2013/AES.java"/>

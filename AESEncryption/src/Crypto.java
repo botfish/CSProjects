@@ -55,7 +55,7 @@ public class Crypto {
 	private void buildEncrypt(String sets) {
 		try {
 			//create cipher
-			encrypt = Cipher.getInstance(sets, prov);
+			encrypt = Cipher.getInstance(sets);
 			if (sets.contains("CBC")) { 
 				do_cbc = true;
 				//generate initial vector if server
@@ -100,7 +100,7 @@ public class Crypto {
 	private void buildDecrypt(String sets) {
 		try {
 			//create cipher
-			decrypt = Cipher.getInstance(sets, prov);
+			decrypt = Cipher.getInstance(sets);
 			//add key
 			if (sets.contains("CBC")) { 
 				do_cbc = true;
