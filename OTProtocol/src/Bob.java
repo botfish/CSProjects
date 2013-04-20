@@ -1,16 +1,23 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 
 import javax.crypto.*;
 
@@ -23,6 +30,8 @@ public class Bob {
     private TLVOutputStream out;
     private SecureRandom random = new SecureRandom();
     private String Msg = "I lose. ~Alice:("; //length must be a multiple of 16
+    private String test = "OneTwoThreeFour1";
+    //Does Bob get to know the message?
 	
 	/**
      * Default constructor.
@@ -37,8 +46,23 @@ public class Bob {
 
 	public static void main(String[] args) {
 		Security.addProvider(new csec2012.CSec2012Prov());
-		//connect to Alice on port 8023
-		//begin protocol
+        int result = -10; // Some result code not used anywhere else
+	     
+        try {
+            Socket clientSocket = new Socket("localhost", 8023);
+            
+            Bob sideB = new Bob(clientSocket.getInputStream(), clientSocket.getOutputStream());
+            result = sideB.execute();
+            
+        } catch (UnknownHostException e) {
+            System.err.println("Don't know about host");
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for the connection to host");
+        } catch (OTPException e) {
+            System.err.println("\nError executing OTP: " + e);
+			e.printStackTrace();
+		}
+
 	}
 	
 	/**
@@ -48,7 +72,7 @@ public class Bob {
      * @return the outcome of the OTP: Outcome.WIN or Outcome.LOSE.
      */
     public int execute() throws OTPException {
-//Part 1
+    	//Part 1
     	
     	//*********************************//
     	//**generate AES symmetric key Kb**//
@@ -157,31 +181,136 @@ public class Bob {
     	//**receive encrypted message from Alice**//
         //****************************************//
         System.err.println(6);
-        byte[] Message = null;
+        byte[] message = null;
+        byte[] K_G = null;
         try {
-        	Message = in.get(0x60);
+        	message = in.get(0x60);
+        	//receive key used
+        	K_G = in.get(0x61);
         } catch (IOException e) {
             throw new OTPException("Unable to receive encrypted key", e);
         }
         
-        
-    	//attempt to decrypt message
-    	//send message back to Alice
-    	//get private keys from Alice
+        byte[] decrypted = null;
+        byte[] K_I_Priv = null;
+        byte[] K_J_Priv = null;
+        try {
+        	//Step 7 of the OTP
+        	System.err.println(7);
+        	//build Cipher for decryption
+            Cipher cipher = Cipher.getInstance("AES/ECB/NoPadding");
+            cipher.init(Cipher.DECRYPT_MODE, AesKey);
+            //attempt to decrypt message using Kb
+			decrypted = cipher.doFinal(message);
+			//send message back to Alice
+			out.put(0x70, decrypted);
+			//send key choice to Alice
+			out.putByte(0x71, H);
+			
+			//Step 8 of the OTP
+			System.err.println(8);
+	    	//get private keys from Alice
+			K_I_Priv = in.get(0x80);
+			K_J_Priv = in.get(0x81);
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
         //verify keys
-    	//return some int
-    	
-    	
-        
-        
-        if(K_I_Pub == K_J_Pub)		// Cheating
+        if (K_I_Pub == K_J_Pub)		// Cheating
         {
-        	throw new OTPCheatException("Alice sent the same Public key twice");
+        	throw new OTPCheatException("Alice sent the same private key twice.");
         }
-        else
-        {
+        else if (K_I_Priv == K_J_Priv) {
+        	throw new OTPCheatException("Alice sent the same private key twice.");
+        }
+        
+        //test to make sure the public keys match the private ones by testing them
+        try {
+        	//Test the K_I keys
+        	PublicKey KI_Public = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(K_I_Pub));
+        	Cipher encrypt = Cipher.getInstance("RSA");
+        	encrypt.init(Cipher.ENCRYPT_MODE, KI_Public);
+        	byte[] temp = encrypt.doFinal(test.getBytes()); //encrypted test string
+        	
+        	PrivateKey KI_Private = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(K_I_Priv));
+        	Cipher decrypt = Cipher.getInstance("RSA");
+        	decrypt.init(Cipher.DECRYPT_MODE, KI_Private);
+        	String temp2 = new String(decrypt.doFinal(temp), "UTF-8");
+        	
+        	if (!temp2.equals(test)) {
+        		throw new OTPCheatException("The private key Alice sent for K_I does not decrypt messages encrypted by " +
+        				"the K_I public key.");
+        	}
+        	
+        	//Test the K_J keys using the same method
+        	PublicKey KJ_Public = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(K_J_Pub));
+        	encrypt = Cipher.getInstance("RSA");
+        	encrypt.init(Cipher.ENCRYPT_MODE, KJ_Public);
+        	temp = encrypt.doFinal(test.getBytes()); //encrypted test string
+        	
+        	PrivateKey KJ_Private = KeyFactory.getInstance("RSA").generatePrivate(new PKCS8EncodedKeySpec(K_J_Priv));
+        	decrypt = Cipher.getInstance("RSA");
+        	decrypt.init(Cipher.DECRYPT_MODE, KJ_Private);
+        	temp2 = new String(decrypt.doFinal(temp), "UTF-8");
+        	
+        	if (!temp2.equals(test)) {
+        		throw new OTPCheatException("The private key Alice sent for K_J does not decrypt messages encrypted by " +
+        				"the K_J public key.");
+        	}
+        	
+        	
+        } catch (InvalidKeySpecException e) {
+        	e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        String M = new String(decrypted);
+        if (M.equals(Msg)) {
+        	if (K_H == K_G) {
+        		return Outcome.WIN;
+        	}
+        	else { //if this happens, something went wrong
+        		return Outcome.WIN_BY_CHEAT;
+        	}
+        }
+        //if the message and keys do not match, you lose
         return Outcome.LOSE;	// simple return just for testing.
-        }
+
     }
 
 }
