@@ -41,20 +41,20 @@
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OTProtocol/src/csec2012/CSec2012Prov.java"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
 </editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Alice.java" partName="Alice.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/OTProtocol/src/Alice.java" title="Alice.java" tooltip="OTProtocol/src/Alice.java" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Alice.java" partName="Alice.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/OTProtocol/src/Alice.java" title="Alice.java" tooltip="OTProtocol/src/Alice.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OTProtocol/src/Alice.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="137" selectionOffset="8502" selectionTopPixel="2739"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8489" selectionTopPixel="2722"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Bob.java" partName="Bob.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/OTProtocol/src/Bob.java" title="Bob.java" tooltip="OTProtocol/src/Bob.java" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Bob.java" partName="Bob.java" path="/Users/Elizabeth/Desktop/College/ComputerSecurity/CSProjects/OTProtocol/src/Bob.java" title="Bob.java" tooltip="OTProtocol/src/Bob.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OTProtocol/src/Bob.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6477" selectionTopPixel="2731"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="8549" selectionTopPixel="3432"/>
 </editor>
 </editors>
 <views>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
 <expanded>
-<category IMemento.internal.id="Warnings (27 items)"/>
+<category IMemento.internal.id="Warnings (28 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="90" org.eclipse.ui.ide.markerType="90" org.eclipse.ui.ide.pathField="120" org.eclipse.ui.ide.resourceField="90" org.eclipse.ui.ide.severityAndDescriptionField="300"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -236,165 +236,162 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/csec2012/CSec2012Prov.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/Alice.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.ui.DefaultTextEditor" path="/OTProtocol/src/Makefile"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/AESEncryption/src/Crypto.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/csec2012/CSec2012Prov.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/Alice.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/Bob.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/Alice.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/csec2012/CSec2012Prov.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/Alice.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/Outcome.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OTProtocol/src/TLVInputStream.java"/>
 </editors>
-<item historyLabel="CSec2012Prov.java" index="0">
+<item historyLabel="CSec2012Prov.java" index="2">
 <position info="not_deleted" x="0" y="0"/>
 </item>
 <item historyLabel="Alice.java" index="1">
-<position info="not_deleted" x="0" y="0"/>
+<position info="not_deleted" x="8502" y="137"/>
 </item>
-<item historyLabel="Makefile" index="2">
-<position info="not_deleted" x="129" y="0"/>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="5574" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="5672" y="0"/>
+</item>
+<item historyLabel="CSec2012Prov.java" index="2">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 <item historyLabel="Alice.java" index="1">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Crypto.java" index="3">
-<position info="not_deleted" x="5583" y="46"/>
-</item>
-<item historyLabel="CSec2012Prov.java" index="4">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="198" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="1067" y="322"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="618" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="9459" y="117"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="594" y="0"/>
-</item>
-<item historyLabel="CSec2012Prov.java" index="4">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="1866" y="50"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="877" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="1866" y="50"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="877" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="1866" y="50"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="877" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="1866" y="50"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="877" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="3681" y="251"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="1126" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="3681" y="251"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="928" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="3681" y="251"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="1567" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="3681" y="251"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="1375" y="0"/>
-</item>
-<item historyLabel="CSec2012Prov.java" index="4">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="5">
-<position info="not_deleted" x="9384" y="74"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="1375" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="7">
-<position info="not_deleted" x="9385" y="74"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="4959" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="7">
-<position info="not_deleted" x="8072" y="4"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="4959" y="0"/>
-</item>
-<item historyLabel="CSec2012Prov.java" index="8">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="7">
-<position info="not_deleted" x="8072" y="4"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="5574" y="0"/>
-</item>
-<item historyLabel="CSec2012Prov.java" index="8">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="7">
 <position info="not_deleted" x="8502" y="137"/>
 </item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="5574" y="0"/>
-</item>
-<item historyLabel="Bob.java" index="6">
+<item historyLabel="Bob.java" index="0">
 <position info="not_deleted" x="5672" y="0"/>
 </item>
-<item historyLabel="CSec2012Prov.java" index="8">
-<position info="not_deleted" x="0" y="0"/>
-</item>
-<item historyLabel="Alice.java" index="7">
-<position info="not_deleted" x="8502" y="137"/>
-</item>
-<item historyLabel="Bob.java" index="6">
-<position info="not_deleted" x="5672" y="0"/>
-</item>
-<item historyLabel="Bob.java" index="6">
+<item historyLabel="Bob.java" index="0">
 <position info="not_deleted" x="5651" y="0"/>
 </item>
-<item historyLabel="Bob.java" index="6">
+<item historyLabel="Bob.java" index="0">
 <position info="not_deleted" x="5672" y="0"/>
 </item>
-<item historyLabel="Alice.java" index="7">
+<item historyLabel="Alice.java" index="1">
 <position info="not_deleted" x="8502" y="137"/>
 </item>
-<item active="true" historyLabel="Bob.java" index="6">
+<item historyLabel="Bob.java" index="0">
 <position info="not_deleted" x="5672" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="8502" y="137"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6093" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="5137" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="8502" y="137"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="7524" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="9380" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="10457" y="0"/>
+</item>
+<item historyLabel="Outcome.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="10397" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="9380" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="10397" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="10641" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="9380" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="10641" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="9380" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="10641" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="7976" y="22"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6349" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="7976" y="22"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6349" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="7976" y="22"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6608" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="6903" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="6903" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6467" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="8070" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6883" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="8256" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6883" y="0"/>
+</item>
+<item historyLabel="TLVInputStream.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6852" y="25"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="8253" y="22"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="6750" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="8253" y="22"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="9219" y="0"/>
+</item>
+<item historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="8489" y="0"/>
+</item>
+<item historyLabel="Bob.java" index="0">
+<position info="not_deleted" x="8549" y="0"/>
+</item>
+<item active="true" historyLabel="Alice.java" index="3">
+<position info="not_deleted" x="8489" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -402,6 +399,12 @@
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
+<trimArea IMemento.internal.id="16384">
+<trimItem IMemento.internal.id="left"/>
+</trimArea>
+<trimArea IMemento.internal.id="131072">
+<trimItem IMemento.internal.id="right"/>
+</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.mylyn.tasks.ui.trim.container"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
@@ -410,10 +413,17 @@
 <trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+<trimItem IMemento.internal.id="bottom"/>
 </trimArea>
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TLVInputStream.java" tooltip="OTProtocol/src/TLVInputStream.java">
+<persistable path="/OTProtocol/src/TLVInputStream.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Outcome.java" tooltip="OTProtocol/src/Outcome.java">
+<persistable path="/OTProtocol/src/Outcome.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Bob.java" tooltip="OTProtocol/src/Bob.java">
 <persistable path="/OTProtocol/src/Bob.java"/>
 </file>
@@ -452,12 +462,6 @@
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="testInput-1.java" tooltip="AESEncryption/src/testInput-1.java">
 <persistable path="/AESEncryption/src/testInput-1.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Test.java" tooltip="AESEncryption/src/Test.java">
-<persistable path="/AESEncryption/src/Test.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="Subroutines.java" tooltip="AESEncryption/src/Subroutines.java">
-<persistable path="/AESEncryption/src/Subroutines.java"/>
 </file>
 </mruList>
 </workbench>

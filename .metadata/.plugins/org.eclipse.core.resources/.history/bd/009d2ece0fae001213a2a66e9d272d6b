@@ -259,7 +259,7 @@ public class Bob {
         //verify keys
         if (K_I_Pub == K_J_Pub)		// Cheating
         {
-        	throw new OTPCheatException("Alice sent the same public key twice.");
+        	throw new OTPCheatException("Alice sent the same private key twice.");
         }
         else if (K_I_Priv == K_J_Priv) {
         	throw new OTPCheatException("Alice sent the same private key twice.");

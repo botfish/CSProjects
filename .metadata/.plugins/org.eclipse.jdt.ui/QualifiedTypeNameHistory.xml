@@ -31,4 +31,10 @@
 <fullyQualifiedTypeName name="java.security.InvalidKeyException"/>
 <fullyQualifiedTypeName name="java.security.spec.X509EncodedKeySpec"/>
 <fullyQualifiedTypeName name="java.security.interfaces.RSAPublicKey"/>
+<fullyQualifiedTypeName name="java.net.Socket"/>
+<fullyQualifiedTypeName name="java.net.UnknownHostException"/>
+<fullyQualifiedTypeName name="java.security.PrivateKey"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.security.spec.RSAPrivateKeySpec"/>
+<fullyQualifiedTypeName name="java.security.spec.PKCS8EncodedKeySpec"/>
 </qualifiedTypeNameHistroy>
