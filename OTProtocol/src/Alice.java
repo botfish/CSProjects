@@ -25,6 +25,7 @@ import java.security.interfaces.RSAPublicKey;
 
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -155,6 +156,9 @@ public class Alice {
         } catch (IOException e) {
             throw new OTPException("Unable to receive encrypted key", e);
         }
+        //save the original message for checking later
+        byte[] K_B_data = new byte[K_B_H_data.length]; //the original thing sent by Bob
+        System.arraycopy(K_B_H_data, 0, K_B_data, 0, K_B_H_data.length);
         
         // Step 5: Select G (is the coin heads or tails?), and decrypt K_B.
         System.err.println(5);
@@ -226,6 +230,39 @@ public class Alice {
         } catch (IOException e) {
             throw new OTPException("Unable to send private keys");
         }
+        
+        //Check to make sure Bob actually uses the public key he says he did
+        KeyPair K_test = H == 0 ? K_I : K_J; //pick the key Bob says he picked
+        //"decrypt" K_B using this keypair
+        try {
+			SecretKey kb = Common.decryptKey((RSAPrivateKey)K_test.getPrivate(),
+					K_B_data);
+			//re-encrypt this, again with Bob's key choice. If Bob was telling the truth,
+			//then this should be the same as the original bytes sent by Bob.
+			byte[] temp = Common.encryptKey((RSAPublicKey)K_test.getPublic(),
+			        kb, new SecureRandom());
+			if (!Arrays.equals(temp, K_B_data)) {
+				throw new OTPCheatException(
+	                    "Bob claims he was using the public key corresponding to " + H +
+	                    " to encrypt K_B, but the key he claims to have chosen was "+ 
+	                    		" not the one used to excrypt K_B.");
+			}
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         // Interpret the result
         if (G == H) {

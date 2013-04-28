@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -88,6 +89,7 @@ public class Bob {
      */
     public int execute() throws OTPException {
     	//Part 1
+    	System.err.println(1); //only Alice does this
     	
     	//*********************************//
     	//**generate AES symmetric key Kb**//
@@ -104,9 +106,6 @@ public class Bob {
         {
         	throw new OTPException("No Such Algorithm -AES");
         }
-
-    	
-    	System.out.println("Generated Key");
     	
     	//**************************************//
     	//**receive two public keys from Alice**//
@@ -120,7 +119,6 @@ public class Bob {
             throw new OTPException("Unable to receive encrypted key", e);
         }
         
-        System.out.println("Key 2");
         
         byte[] K_J_Pub = null;
         try {
@@ -157,7 +155,16 @@ public class Bob {
 
         
         try {
-			KeySend = Common.encryptKey((RSAPublicKey) publicKey, AesKey, r);		// Encrypting the AES with with the Randomly chosen Public Key
+        	//don't use the Common function, it could be rigged?
+			//KeySend = Common.encryptKey((RSAPublicKey) publicKey, AesKey, r);		// Encrypting the AES with with the Randomly chosen Public Key
+        	Cipher c = Cipher.getInstance("RSA/ECB/NoPadding");
+            c.init(Cipher.ENCRYPT_MODE, publicKey);
+            byte[] K_data = AesKey.getEncoded();
+            int block_len = (((RSAPublicKey)publicKey).getModulus().bitLength() + 7) / 8;
+            ByteBuffer data = ByteBuffer.allocate(2 + block_len);
+            data.putShort((short)K_data.length);
+            data.put(c.doFinal(K_data));
+            KeySend = data.array();
 		} catch (InvalidKeyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -200,7 +207,7 @@ public class Bob {
         byte[] K_G = null;
         try {
         	message = in.get(0x60);
-        	//receive key used
+        	//receive number of key used
         	K_G = in.get(0x61);
         } catch (IOException e) {
             throw new OTPException("Unable to receive encrypted key", e);
@@ -225,6 +232,12 @@ public class Bob {
             cipher.init(Cipher.DECRYPT_MODE, AesKey);
             //attempt to decrypt message using Kb
 			decrypted = cipher.doFinal(message);
+			
+			//CHEATING BOB!
+			//out.put(0x70, Msg.getBytes());
+			//out.putByte(0x71, K_G_result);
+			
+			//Benign Bob
 			//send message back to Alice
 			out.put(0x70, decrypted);
 			//send key choice to Alice
@@ -330,7 +343,7 @@ public class Bob {
         }
         else if (H == K_G_result && !M.equals(Msg))
         {
-    		throw new OTPCheatException("Keys were guessed correctly, but the standard message was changed.");
+    		throw new OTPCheatException("Keys were guessed correctly, but the standard message was not succesffully decrypted.");
         	
         }
         else if (H != K_G_result && !M.equals(Msg))

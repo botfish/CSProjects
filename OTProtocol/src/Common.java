@@ -34,8 +34,8 @@ public class Common {
     public static void printData(byte[] data) {
         for (byte b: data) {
             System.err.printf("%02x ", b);
-            System.err.println();
         }
+        System.err.println();
     }
     /**
      * "Wrap" an AES key using an RSA public key.
